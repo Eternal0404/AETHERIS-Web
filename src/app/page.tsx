@@ -202,8 +202,6 @@ function HomeContent() {
             <Button size="lg" className="mt-8 rounded-full">Get Started <ArrowRight className="ml-2 h-4 w-4" /></Button>
           </footer>
         </motion.div>
-      )}
-    </main>
   )
 }
 
