@@ -10,21 +10,6 @@ import { ArrowRight, Cpu, Globe, Zap, Database, Shield, Activity } from "lucide-
 
 export default function Home() {
   const [loading, setLoading] = React.useState(true)
-
-  return (
-    <main className="relative min-h-screen">
-      <AnimatePresence mode="wait">
-        {loading ? (
-          <Preloader key="preloader" onComplete={() => setLoading(false)} />
-        ) : (
-          <HomeContent key="content" />
-        )}
-      </AnimatePresence>
-    </main>
-  )
-}
-
-function HomeContent() {
   const containerRef = React.useRef<HTMLDivElement>(null)
   
   const { scrollYProgress } = useScroll({
@@ -33,15 +18,20 @@ function HomeContent() {
   })
 
   return (
-    <motion.div
-      ref={containerRef}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1 }}
-    >
-      <Navbar />
-      
-      {/* Hero Section */}
+    <main className="relative min-h-screen">
+      <AnimatePresence>
+        {loading && <Preloader onComplete={() => setLoading(false)} />}
+      </AnimatePresence>
+
+      {!loading && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
+          <Navbar />
+          
+          {/* Hero Section */}
           <section className="relative flex min-h-screen items-center justify-center overflow-hidden px-6 pt-20">
             <div className="absolute inset-0 -z-10 overflow-hidden">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(var(--primary-rgb),0.1),transparent_70%)]" />
@@ -202,6 +192,8 @@ function HomeContent() {
             <Button size="lg" className="mt-8 rounded-full">Get Started <ArrowRight className="ml-2 h-4 w-4" /></Button>
           </footer>
         </motion.div>
+      )}
+    </main>
   )
 }
 
