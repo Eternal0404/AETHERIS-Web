@@ -7,7 +7,7 @@ import { EarthPollutionModel } from "@/components/earth-pollution-model";
 import { ScrambleIn } from "@/components/scramble-in";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
-import { Shield, Zap, Activity, Info, AlertTriangle, Recycle, Target, Waves, Search, BarChart3, Globe, Layers } from "lucide-react";
+import { Shield, Zap, Activity, Info, AlertTriangle, Recycle, Target, Waves, Search, BarChart3, Globe, Layers, Clock, TrendingUp, Filter } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const SOLUTIONS = [
@@ -18,7 +18,7 @@ const SOLUTIONS = [
     description: "The world's first mission to remove a piece of space debris from orbit. Using a 'chaser' satellite with four robotic arms to grab and de-orbit spent rocket stages.",
     icon: <Target className="h-6 w-6" />,
     color: "bg-blue-500",
-    stats: "Launch: 2025 | Target: Vespa Payload Adapter"
+    stats: "Launch: 2026 | Target: Vespa Payload Adapter"
   },
   {
     id: "nets",
@@ -45,7 +45,7 @@ const SOLUTIONS = [
     description: "End-of-Life Services by Astroscale. Demonstrating magnetic docking technology to capture and remove defunct satellites from orbit.",
     icon: <Recycle className="h-6 w-6" />,
     color: "bg-emerald-500",
-    stats: "Deployment: Operational"
+    stats: "Status: Ongoing Flight Tests"
   },
   {
     id: "drag",
@@ -65,6 +65,22 @@ const SOLUTIONS = [
     color: "bg-cyan-500",
     stats: "Prototype: TRL-4"
   }
+];
+
+const HISTORICAL_EVENTS = [
+  { year: "1957", event: "Sputnik 1 Launch", desc: "Start of human-made objects in orbit.", type: "milestone" },
+  { year: "1996", event: "Cerise Collision", desc: "First verified collision between two catalogued objects. A French satellite hit by a piece of an Ariane rocket.", type: "collision" },
+  { year: "2007", event: "Fengyun-1C Test", desc: "Chinese ASAT test created over 3,000 tracked fragments, the largest debris event in history.", type: "explosion" },
+  { year: "2009", event: "Iridium-Kosmos", desc: "First major hypervelocity collision between two intact satellites (Iridium 33 and Kosmos 2251).", type: "collision" },
+  { year: "2021", event: "Russian ASAT Test", desc: "Destruction of Cosmos 1408 created a debris cloud forcing ISS crew to take shelter.", type: "explosion" },
+  { year: "2024", event: "Resurs-P Fragmentation", desc: "Decommissioned Russian satellite broke up into 100+ tracked pieces in LEO.", type: "fragmentation" }
+];
+
+const DEBRIS_TYPES = [
+  { label: "Defunct Satellites", val: "9,100+", desc: "Satellites that have reached end-of-life but remain in orbit.", icon: <Globe className="w-5 h-5" /> },
+  { label: "Rocket Stages", val: "2,000+", desc: "Spent upper stages used to launch payloads into orbit.", icon: <TrendingUp className="w-5 h-5" /> },
+  { label: "Mission Related", val: "12,000+", desc: "Nuts, bolts, and lens caps released during deployment.", icon: <Filter className="w-5 h-5" /> },
+  { label: "Fragmentation", val: "26,000+", desc: "Pieces created by explosions and collisions.", icon: <Zap className="w-5 h-5" /> }
 ];
 
 export default function SpacePollutionPage() {
@@ -90,7 +106,7 @@ export default function SpacePollutionPage() {
               className="mb-4 inline-flex items-center gap-2 rounded-full border border-red-500/50 bg-red-500/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-red-500 backdrop-blur-sm"
             >
               <Activity className="h-3 w-3 animate-pulse" />
-              Real-time Orbital Risk: Critical
+              Real-time Orbital Risk: Critical (ESA Index 4/1)
             </motion.div>
             <h1 className="text-7xl font-black tracking-tighter md:text-9xl lg:text-[12rem] leading-none uppercase text-transparent bg-clip-text bg-gradient-to-b from-white to-white/20">
               ORBITAL
@@ -144,9 +160,9 @@ export default function SpacePollutionPage() {
               <section className="mx-auto max-w-7xl px-6 py-32">
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
                   {[
-                    { val: "34,000+", label: "Tracked Objects", desc: "Objects larger than 10cm currently monitored by space agencies.", icon: <Activity />, color: "border-red-500/20 bg-red-500/5" },
-                    { val: "128M", label: "Lethal Fragments", desc: "Pieces from 1mm to 1cm orbiting at speeds up to 28,000 km/h.", icon: <Zap />, color: "border-white/10 bg-white/5" },
-                    { val: "7.5km/s", label: "Impact Velocity", desc: "Average relative speed of collision. A bolt has the energy of a hand grenade.", icon: <Shield />, color: "border-white/10 bg-white/5" }
+                    { val: "35,000", label: "Tracked Objects", desc: "Objects larger than 10cm catalogued by Space Surveillance Networks.", icon: <Activity />, color: "border-red-500/20 bg-red-500/5" },
+                    { val: "140M", label: "Lethal Fragments", desc: "Pieces from 1mm to 1cm orbiting at hypervelocity (28,000 km/h).", icon: <Zap />, color: "border-white/10 bg-white/5" },
+                    { val: "9,200t", label: "Orbital Mass", desc: "Total mass of all human-made objects currently in Earth orbit.", icon: <Shield />, color: "border-white/10 bg-white/5" }
                   ].map((stat, i) => (
                     <motion.div
                       key={i}
@@ -167,6 +183,23 @@ export default function SpacePollutionPage() {
                 </div>
               </section>
 
+              {/* Debris Types Grid */}
+              <section className="mx-auto max-w-7xl px-6 pb-32">
+                <div className="mb-16">
+                  <h2 className="text-4xl font-black uppercase tracking-tighter italic border-l-4 border-red-500 pl-6">Anatomy of the Junkyard</h2>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {DEBRIS_TYPES.map((type, i) => (
+                    <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-colors">
+                      <div className="text-red-500 mb-4">{type.icon}</div>
+                      <p className="text-xs font-mono text-white/40 uppercase tracking-widest mb-1">{type.label}</p>
+                      <p className="text-2xl font-black mb-2">{type.val}</p>
+                      <p className="text-sm text-muted-foreground">{type.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
               {/* Educational Content */}
               <section className="mx-auto max-w-5xl px-6 py-32 space-y-48">
                 <div className="grid gap-20 md:grid-cols-2 items-center">
@@ -175,7 +208,7 @@ export default function SpacePollutionPage() {
                       The Junk Problem
                     </h2>
                     <p className="text-2xl text-muted-foreground leading-relaxed font-light">
-                      Space debris is any human-made object in orbit around Earth that no longer serves a useful function. Every bolt, paint chip, and defunct satellite contributes to an invisible minefield surrounding our planet.
+                      Space debris is any human-made object in orbit around Earth that no longer serves a useful function. Every bolt, paint chip, and defunct satellite contributes to an invisible minefield surrounding our planet. Fragmentation events now add new debris faster than they can naturally re-enter.
                     </p>
                     <div className="mt-10 flex gap-4">
                       <div className="h-1 w-20 bg-red-500" />
@@ -205,13 +238,43 @@ export default function SpacePollutionPage() {
                       Cascade Effect
                     </h2>
                     <p className="text-2xl text-muted-foreground leading-relaxed font-light">
-                      The Kessler Syndrome suggests that LEO is becoming so crowded that collisions will trigger a chain reaction, creating more debris and eventually making space travel and satellite operations impossible for generations.
+                      The Kessler Syndrome suggests that LEO is becoming so crowded that collisions will trigger a chain reaction, creating more debris and eventually making space travel and satellite operations impossible for generations. ESA's MASTER models show debris now poses the same level of threat as active satellites in LEO.
                     </p>
                     <div className="mt-10 flex gap-4 justify-end">
                       <div className="h-1 w-4 bg-blue-500/10" />
                       <div className="h-1 w-8 bg-blue-500/30" />
                       <div className="h-1 w-20 bg-blue-500" />
                     </div>
+                  </div>
+                </div>
+              </section>
+
+              {/* Timeline Section */}
+              <section className="mx-auto max-w-7xl px-6 py-32 border-t border-white/5">
+                <div className="mb-20 text-center">
+                  <h2 className="text-6xl font-black uppercase tracking-tighter italic mb-4">Collision Timeline</h2>
+                  <p className="text-xl text-muted-foreground">Key events that shaped our current orbital environment.</p>
+                </div>
+                <div className="relative">
+                  <div className="absolute left-1/2 top-0 bottom-0 w-px bg-white/10 -translate-x-1/2 hidden md:block" />
+                  <div className="space-y-12">
+                    {HISTORICAL_EVENTS.map((event, i) => (
+                      <motion.div 
+                        key={i}
+                        initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        className={cn("flex flex-col md:flex-row items-center gap-8", i % 2 === 0 ? "md:flex-row-reverse text-right" : "")}
+                      >
+                        <div className="flex-1">
+                          <span className="text-sm font-mono text-red-500 font-bold mb-2 block">{event.year}</span>
+                          <h4 className="text-3xl font-black uppercase mb-4">{event.event}</h4>
+                          <p className="text-muted-foreground max-w-md ml-auto mr-auto md:ml-0 md:mr-0">{event.desc}</p>
+                        </div>
+                        <div className="relative z-10 h-4 w-4 rounded-full bg-red-500 ring-8 ring-red-500/20" />
+                        <div className="flex-1" />
+                      </motion.div>
+                    ))}
                   </div>
                 </div>
               </section>
@@ -242,9 +305,9 @@ export default function SpacePollutionPage() {
                   
                   <div className="space-y-12">
                     {[
-                      { layer: "LEO (Low Earth Orbit)", height: "200 - 2,000km", density: 85, color: "bg-red-500", desc: "Highest risk zone. Used for ISS and Starlink." },
-                      { layer: "MEO (Medium Earth Orbit)", height: "2,000 - 35,000km", density: 12, color: "bg-yellow-500", desc: "GPS and navigation satellite zone." },
-                      { layer: "GEO (Geostationary)", height: "35,786km", density: 3, color: "bg-blue-500", desc: "Telecommunications and weather satellites." }
+                      { layer: "LEO (Low Earth Orbit)", height: "200 - 2,000km", density: 85, color: "bg-red-500", desc: "Highest risk zone. Critical density at 550km where satellites expect 30 conjunctions/year." },
+                      { layer: "MEO (Medium Earth Orbit)", height: "2,000 - 35,000km", density: 12, color: "bg-yellow-500", desc: "GPS and navigation satellite zone. Relatively stable but growing." },
+                      { layer: "GEO (Geostationary)", height: "35,786km", density: 3, color: "bg-blue-500", desc: "Telecommunications zone. Strict 'Graveyard Orbit' protocols required." }
                     ].map((row, i) => (
                       <div key={i} className="relative">
                         <div className="flex justify-between items-end mb-4">
@@ -271,13 +334,13 @@ export default function SpacePollutionPage() {
                   <div className="mt-16 rounded-2xl bg-black/50 p-6 font-mono text-xs text-blue-400/70 border border-white/5">
                     <div className="flex items-center gap-2 mb-4 text-white/40">
                       <div className="h-2 w-2 rounded-full bg-blue-500 animate-pulse" />
-                      SYSTEM_LOG: INGESTING_NORAD_DATA...
+                      SYSTEM_LOG: INGESTING_ESA_REPORT_2025...
                     </div>
                     <div className="space-y-1">
-                      <p>[14:22:01] Detected fragmentation event in LEO-Sector-7G</p>
-                      <p>[14:22:05] Cataloging 142 new trackable fragments</p>
-                      <p>[14:22:12] Updating collision probability matrices...</p>
-                      <p className="text-white/20 italic">_awaiting telemetry signal_</p>
+                      <p>[14:22:01] Detected Resurs-P fragmentation in LEO-Sector-7G</p>
+                      <p>[14:22:05] Cataloging 100+ new trackable fragments</p>
+                      <p>[14:22:12] Updating health index from MASTER-8 model...</p>
+                      <p className="text-white/20 italic">_telemetry stream stabilized_</p>
                     </div>
                   </div>
                 </div>
@@ -285,13 +348,14 @@ export default function SpacePollutionPage() {
                 <div className="space-y-8">
                   <div className="rounded-[2.5rem] border border-red-500/20 bg-red-500/5 p-10">
                     <h4 className="text-xl font-bold mb-6 flex items-center gap-3">
-                      <AlertTriangle className="text-red-500" /> Top Threats
+                      <AlertTriangle className="text-red-500" /> Risk Factors
                     </h4>
                     <ul className="space-y-6">
                       {[
-                        { label: "Fragmentation", val: "62%", trend: "up" },
-                        { label: "Defunct Sats", val: "24%", trend: "stable" },
-                        { label: "Rocket Stages", val: "14%", trend: "down" }
+                        { label: "Propulsion Failures", val: "37%", trend: "up" },
+                        { label: "ASAT Tests", val: "22%", trend: "stable" },
+                        { label: "Collisions", val: "15%", trend: "up" },
+                        { label: "Anomalous breakup", val: "26%", trend: "down" }
                       ].map((item, i) => (
                         <li key={i} className="flex justify-between items-center">
                           <span className="text-muted-foreground">{item.label}</span>
@@ -304,30 +368,27 @@ export default function SpacePollutionPage() {
                     </ul>
                   </div>
 
-                  <div className="rounded-[2.5rem] border border-white/10 bg-white/5 p-10">
-                    <h4 className="text-xl font-bold mb-6">Total Debris Mass</h4>
-                    <p className="text-6xl font-black mb-2">9,200 <span className="text-2xl">TONS</span></p>
-                    <p className="text-sm text-muted-foreground uppercase tracking-widest">Equivalent to 400 Space Shuttles</p>
-                    <div className="mt-8 h-1 w-full bg-white/5 rounded-full">
-                       <motion.div 
-                        animate={{ opacity: [0.3, 1, 0.3] }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                        className="h-full w-2/3 bg-blue-500 rounded-full" 
-                       />
-                    </div>
+                  <div className="rounded-[2.5rem] border border-emerald-500/20 bg-emerald-500/5 p-10">
+                    <h4 className="text-xl font-bold mb-6 flex items-center gap-3">
+                      <Recycle className="text-emerald-500" /> Re-entry Success
+                    </h4>
+                    <p className="text-6xl font-black mb-2">3+ <span className="text-2xl">DAILY</span></p>
+                    <p className="text-sm text-muted-foreground uppercase tracking-widest leading-relaxed">Average rate of objects (satellites or rocket bodies) re-entering the atmosphere in 2024.</p>
                   </div>
 
-                  <div className="rounded-[2.5rem] bg-gradient-to-br from-blue-600 to-blue-800 p-10 text-white shadow-2xl shadow-blue-500/20">
-                    <h4 className="text-xl font-bold mb-4">Space Traffic Control</h4>
-                    <p className="text-sm opacity-80 leading-relaxed mb-6">Managing over 500,000 collision avoidance maneuvers annually.</p>
-                    <Button variant="secondary" className="w-full rounded-full bg-white text-blue-600 font-bold hover:bg-white/90">
-                      Download Report
+                  <div className="rounded-[2.5rem] bg-gradient-to-br from-red-600 to-red-800 p-10 text-white shadow-2xl shadow-red-500/20">
+                    <h4 className="text-xl font-bold mb-4 flex items-center gap-2"><Activity className="w-5 h-5" /> Orbital Health Index</h4>
+                    <p className="text-5xl font-black mb-4">4 / 1</p>
+                    <p className="text-sm opacity-80 leading-relaxed mb-6">ESA metric for sustainability. Level 1 is the threshold for long-term stability. We are currently 4x above the safety limit.</p>
+                    <Button variant="secondary" className="w-full rounded-full bg-white text-red-600 font-bold hover:bg-white/90">
+                      View ESA Report
                     </Button>
                   </div>
                 </div>
               </div>
             </motion.div>
           )}
+
 
           {activeTab === "solutions" && (
             <motion.div
