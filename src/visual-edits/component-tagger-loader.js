@@ -267,9 +267,24 @@ const dreiElems = [
     "SpotLight",
     "Stage",
     "Stars",
-    "OrbitControls"
-];
-const shouldTag = (name) => !threeFiberElems.includes(name) && !dreiElems.includes(name);
+    "OrbitControls",
+    "Canvas",
+    "Sphere",
+    "Box",
+    "Plane",
+    "Circle",
+    "Cone",
+    "Cylinder",
+    "Torus",
+    "TorusKnot",
+    "Ring",
+    "Tetrahedron",
+    "Octahedron",
+    "Icosahedron",
+    "Dodecahedron",
+    "CurveModifier",
+    "AdaptiveDpr",
+
 // ➕ Collect aliases of the Next.js <Image> component so we can reliably tag it even if it was renamed.
 const isNextImageAlias = (aliases, name) => aliases.has(name);
 const extractLiteralValue = (node) => {
