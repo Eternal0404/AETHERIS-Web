@@ -289,7 +289,12 @@ const dreiElems = [
     "Suspense",
     "React.Suspense"
 ];
-const shouldTag = (name) => !threeFiberElems.includes(name) && !dreiElems.includes(name);
+const shouldTag = (name) => {
+    const lowerName = name.toLowerCase();
+    return !threeFiberElems.some(e => e.toLowerCase() === lowerName) && 
+           !dreiElems.some(e => e.toLowerCase() === lowerName) &&
+           !name.startsWith('THREE.');
+};
 
 // ➕ Collect aliases of the Next.js <Image> component so we can reliably tag it even if it was renamed.
 const isNextImageAlias = (aliases, name) => aliases.has(name);
