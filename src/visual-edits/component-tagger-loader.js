@@ -466,6 +466,12 @@ function componentTagger(src, map) {
     try {
         if (/node_modules/.test(this.resourcePath))
             return done(null, src, map);
+        
+        // Skip files that use React Three Fiber to avoid R3F attribute errors
+        if (src.includes('@react-three/fiber') || src.includes('@react-three/drei') || src.includes('from "three"') || src.includes("from 'three'")) {
+            return done(null, src, map);
+        }
+
         const ast = (0, parser_1.parse)(src, {
             sourceType: 'module',
             plugins: ['jsx', 'typescript'],
