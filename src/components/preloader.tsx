@@ -8,12 +8,19 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
   const [isDone, setIsDone] = React.useState(false)
 
   React.useEffect(() => {
+    const hasLoaded = sessionStorage.getItem("aetheris-preloader-loaded")
+    if (hasLoaded) {
+      onComplete()
+      return
+    }
+
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval)
           setTimeout(() => {
             setIsDone(true)
+            sessionStorage.setItem("aetheris-preloader-loaded", "true")
             setTimeout(onComplete, 1000)
           }, 500)
           return 100
