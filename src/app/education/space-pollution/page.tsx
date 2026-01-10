@@ -210,7 +210,7 @@ export default function SpacePollutionPage() {
             >
               <div className="mb-16 text-center">
                 <h2 className="text-6xl font-black tracking-tighter uppercase mb-4">Orbital Density Map</h2>
-                <p className="text-xl text-muted-foreground">Visualizing debris concentration across various altitude layers.</p>
+                <p className="text-xl text-muted-foreground">Real-time visualization of debris concentration across various altitude layers.</p>
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -248,6 +248,20 @@ export default function SpacePollutionPage() {
                       </div>
                     ))}
                   </div>
+
+                  {/* Live Terminal Simulation */}
+                  <div className="mt-16 rounded-2xl bg-black/50 p-6 font-mono text-xs text-blue-400/70 border border-white/5">
+                    <div className="flex items-center gap-2 mb-4 text-white/40">
+                      <div className="h-2 w-2 rounded-full bg-blue-500 animate-pulse" />
+                      SYSTEM_LOG: INGESTING_NORAD_DATA...
+                    </div>
+                    <div className="space-y-1">
+                      <p>[14:22:01] Detected fragmentation event in LEO-Sector-7G</p>
+                      <p>[14:22:05] Cataloging 142 new trackable fragments</p>
+                      <p>[14:22:12] Updating collision probability matrices...</p>
+                      <p className="text-white/20 italic">_awaiting telemetry signal_</p>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="space-y-8">
@@ -256,18 +270,19 @@ export default function SpacePollutionPage() {
                       <AlertTriangle className="text-red-500" /> Top Threats
                     </h4>
                     <ul className="space-y-6">
-                      <li className="flex justify-between items-center">
-                        <span className="text-muted-foreground">Fragmentation</span>
-                        <span className="font-mono text-red-400">62%</span>
-                      </li>
-                      <li className="flex justify-between items-center">
-                        <span className="text-muted-foreground">Defunct Sats</span>
-                        <span className="font-mono text-red-400">24%</span>
-                      </li>
-                      <li className="flex justify-between items-center">
-                        <span className="text-muted-foreground">Rocket Stages</span>
-                        <span className="font-mono text-red-400">14%</span>
-                      </li>
+                      {[
+                        { label: "Fragmentation", val: "62%", trend: "up" },
+                        { label: "Defunct Sats", val: "24%", trend: "stable" },
+                        { label: "Rocket Stages", val: "14%", trend: "down" }
+                      ].map((item, i) => (
+                        <li key={i} className="flex justify-between items-center">
+                          <span className="text-muted-foreground">{item.label}</span>
+                          <div className="flex items-center gap-3">
+                            <span className="font-mono text-red-400">{item.val}</span>
+                            <div className={cn("h-1.5 w-1.5 rounded-full", item.trend === "up" ? "bg-red-500 animate-pulse" : "bg-white/20")} />
+                          </div>
+                        </li>
+                      ))}
                     </ul>
                   </div>
 
@@ -275,6 +290,21 @@ export default function SpacePollutionPage() {
                     <h4 className="text-xl font-bold mb-6">Total Debris Mass</h4>
                     <p className="text-6xl font-black mb-2">9,200 <span className="text-2xl">TONS</span></p>
                     <p className="text-sm text-muted-foreground uppercase tracking-widest">Equivalent to 400 Space Shuttles</p>
+                    <div className="mt-8 h-1 w-full bg-white/5 rounded-full">
+                       <motion.div 
+                        animate={{ opacity: [0.3, 1, 0.3] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                        className="h-full w-2/3 bg-blue-500 rounded-full" 
+                       />
+                    </div>
+                  </div>
+
+                  <div className="rounded-[2.5rem] bg-gradient-to-br from-blue-600 to-blue-800 p-10 text-white shadow-2xl shadow-blue-500/20">
+                    <h4 className="text-xl font-bold mb-4">Space Traffic Control</h4>
+                    <p className="text-sm opacity-80 leading-relaxed mb-6">Managing over 500,000 collision avoidance maneuvers annually.</p>
+                    <Button variant="secondary" className="w-full rounded-full bg-white text-blue-600 font-bold hover:bg-white/90">
+                      Download Report
+                    </Button>
                   </div>
                 </div>
               </div>
