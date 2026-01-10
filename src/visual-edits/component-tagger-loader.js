@@ -283,7 +283,11 @@ const dreiElems = [
     "Icosahedron",
     "Dodecahedron",
     "CurveModifier",
-    "AdaptiveDpr"
+    "AdaptiveDpr",
+    "Earth",
+    "DebrisField",
+    "Suspense",
+    "React.Suspense"
 ];
 const shouldTag = (name) => !threeFiberElems.includes(name) && !dreiElems.includes(name);
 
