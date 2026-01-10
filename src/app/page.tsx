@@ -9,19 +9,38 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Cpu, Globe, Zap, Database, Shield, Activity } from "lucide-react";
 
 export default function Home() {
+  const [mounted, setMounted] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    setMounted(true);
+    const hasLoaded = sessionStorage.getItem("aetheris-preloader-loaded");
+    if (hasLoaded) {
+      setLoading(false);
+    }
+  }, []);
+
+  if (!mounted) {
+    return (
+      <main className="relative min-h-screen bg-background">
+        <div className="flex min-h-screen items-center justify-center">
+          <div className="text-muted-foreground">Loading...</div>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="relative min-h-screen">
       <AnimatePresence mode="wait">
-        {loading ?
-        <Preloader key="preloader" onComplete={() => setLoading(false)} /> :
-
-        <HomeContent key="content" />
-        }
+        {loading ? (
+          <Preloader key="preloader" onComplete={() => setLoading(false)} />
+        ) : (
+          <HomeContent key="content" />
+        )}
       </AnimatePresence>
-    </main>);
-
+    </main>
+  );
 }
 
 function HomeContent() {
@@ -233,8 +252,6 @@ function HorizontalTimeline() {
     axis: "x"
   });
 
-  // We need a proper horizontal scroll section.
-  // Using a container with overflow-x-auto and snap-x
   return (
     <div className="relative">
       <div
@@ -257,7 +274,6 @@ function TimelineItem({ item }: {item: typeof timelineItems[0];}) {
     offset: ["start end", "end start"]
   });
 
-  // Velocity-based mask expansion
   const velocity = useVelocity(scrollYProgress);
   const smoothVelocity = useSpring(velocity, { damping: 50, stiffness: 400 });
   const maskSize = useTransform(smoothVelocity, [-1, 0, 1], ["80%", "100%", "80%"]);
