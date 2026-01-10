@@ -283,7 +283,9 @@ const dreiElems = [
     "Icosahedron",
     "Dodecahedron",
     "CurveModifier",
-    "AdaptiveDpr",
+    "AdaptiveDpr"
+];
+const shouldTag = (name) => !threeFiberElems.includes(name) && !dreiElems.includes(name);
 
 // ➕ Collect aliases of the Next.js <Image> component so we can reliably tag it even if it was renamed.
 const isNextImageAlias = (aliases, name) => aliases.has(name);
