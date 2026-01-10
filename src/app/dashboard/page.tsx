@@ -85,9 +85,9 @@ function WebGLHeatmap() {
         <h3 className="text-sm font-bold uppercase tracking-widest text-primary">Neural Activity Heatmap</h3>
         <p className="text-xs text-muted-foreground">Real-time processing distribution</p>
       </div>
-      <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
-        <HeatmapScene />
-      </Canvas>
+      {React.createElement(Canvas, { 
+        camera: { position: [0, 0, 5], fov: 75 } 
+      } as any, React.createElement(HeatmapScene))}
       <div className="absolute bottom-4 right-6 z-10 flex gap-4">
         <motion.div 
           initial={{ opacity: 0, x: -10 }}
