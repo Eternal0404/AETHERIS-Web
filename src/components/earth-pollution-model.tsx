@@ -24,8 +24,8 @@ const atmosphereFragmentShader = `
   varying vec3 vNormal;
   varying vec3 vEyeVector;
   void main() {
-    float intensity = pow(0.7 - dot(vNormal, vec3(0, 0, 1.0)), 2.0);
-    gl_FragColor = vec4(0.3, 0.6, 1.0, 1.0) * intensity;
+    float intensity = pow(0.8 - dot(vNormal, normalize(vEyeVector)), 2.0);
+    gl_FragColor = vec4(0.0, 0.5, 1.0, 1.0) * intensity;
   }
 `;
 
@@ -47,7 +47,7 @@ function DebrisField({ count = 2000 }: { count?: number }) {
     }));
   }, [count]);
 
-  useFrame(() => {
+  useFrame(({ clock }) => {
     if (!meshRef.current) return;
     
     debrisData.forEach((data, i) => {
@@ -64,8 +64,14 @@ function DebrisField({ count = 2000 }: { count?: number }) {
 
   return (
     <instancedMesh ref={meshRef} args={[undefined, undefined, count]}>
-      <octahedronGeometry args={[1, 0]} />
-      <meshStandardMaterial color="#888888" metalness={0.9} roughness={0.1} />
+      <icosahedronGeometry args={[1, 1]} />
+      <meshStandardMaterial 
+        color="#ff3333" 
+        emissive="#ff0000" 
+        emissiveIntensity={1.0} 
+        metalness={1} 
+        roughness={0} 
+      />
     </instancedMesh>
   );
 }
@@ -103,14 +109,16 @@ function Earth() {
   
   useFrame(() => {
     if (earthRef.current) {
-      earthRef.current.rotation.y += 0.0008;
+      earthRef.current.rotation.y += 0.001;
     }
   });
+
+  const atmosphereUniforms = useMemo(() => ({}), []);
 
   return (
     <group>
       {/* Atmosphere Glow */}
-      <mesh scale={[1.18, 1.18, 1.18]}>
+      <mesh scale={[1.15, 1.15, 1.15]}>
         <sphereGeometry args={[2, 64, 64]} />
           <shaderMaterial
             vertexShader={atmosphereVertexShader}
@@ -118,7 +126,8 @@ function Earth() {
             side={THREE.BackSide}
             transparent
             blending={THREE.AdditiveBlending}
-            uniforms={useMemo(() => ({}), [])}
+            uniforms={atmosphereUniforms}
+            depthWrite={false}
           />
       </mesh>
       
@@ -129,24 +138,29 @@ function Earth() {
           map={colorMap}
           normalMap={normalMap}
           specularMap={specularMap}
-          specular={new THREE.Color(0x333333)}
-          shininess={5}
+          specular={new THREE.Color(0x3333ff)}
+          shininess={10}
+          color="#ccffcc"
         />
       </mesh>
 
       <CloudLayer />
 
-      {/* City Lights / Specular highlight helper */}
+      {/* Techy Grid Overlay */}
       <Sphere args={[2.005, 64, 64]}>
-        <meshStandardMaterial
-          color="#ffd700"
-          emissive="#ffaa00"
-          emissiveIntensity={0.5}
+        <meshBasicMaterial
+          color="#22c55e"
           transparent
-          opacity={0.05}
+          opacity={0.1}
           wireframe
         />
       </Sphere>
+
+      {/* Orbital Ring */}
+      <mesh rotation={[Math.PI / 2, 0.3, 0]}>
+        <ringGeometry args={[3.2, 3.21, 128]} />
+        <meshBasicMaterial color="#ef4444" transparent opacity={0.2} side={THREE.DoubleSide} />
+      </mesh>
     </group>
   );
 }
@@ -157,11 +171,11 @@ export function EarthPollutionModel(props: any) {
       <Canvas dpr={[1, 2]} gl={{ antialias: true, logarithmicDepthBuffer: true }}>
         <PerspectiveCamera makeDefault position={[0, 0, 7]} fov={45} />
         <color attach="background" args={["#000000"]} />
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} intensity={3} color="#ffffff" />
+        <ambientLight intensity={0.7} />
+        <directionalLight position={[10, 5, 10]} intensity={2.5} color="#fffcf0" />
         <pointLight position={[-10, -5, -10]} intensity={1.5} color="#3b82f6" />
         
-        <Stars radius={100} depth={50} count={10000} factor={4} saturation={0} fade speed={0.5} />
+        <Stars radius={300} depth={60} count={20000} factor={7} saturation={0} fade speed={1} />
         
         <Suspense fallback={null}>
           <group rotation={[0, 0, 0.41]}>
@@ -172,11 +186,12 @@ export function EarthPollutionModel(props: any) {
             enableZoom={true} 
             enablePan={true}
             autoRotate 
-            autoRotateSpeed={0.3}
+            autoRotateSpeed={0.5}
             minDistance={3.5}
             maxDistance={12}
             dampingFactor={0.05}
             enableDamping={true}
+            makeDefault
           />
         </Suspense>
       </Canvas>
