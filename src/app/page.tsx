@@ -66,28 +66,15 @@ function HomeContent() {
             </div>
 
             <div className="max-w-6xl text-center">
-              <motion.h1
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-            className="text-mask text-5xl font-bold tracking-tighter sm:text-7xl md:text-9xl">
-
-                STRUCTURAL <br /> GRANULARITY
-              </motion.h1>
-              <motion.p
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-            className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground md:text-xl">
-
-                Experience the next evolution of digital ecosystems. 
-                Precision-engineered kinetic interfaces for the hyper-connected era.
-              </motion.p>
-              <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
-            className="mt-10 flex flex-wrap justify-center gap-4">
+              <ScrambleIn delay={0.2} stagger={0.1}>
+                <h1 className="text-mask text-5xl font-bold tracking-tighter sm:text-7xl md:text-9xl">
+                  STRUCTURAL <br /> GRANULARITY
+                </h1>
+                <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground md:text-xl">
+                  Experience the next evolution of digital ecosystems. 
+                  Precision-engineered kinetic interfaces for the hyper-connected era.
+                </p>
+                <div className="mt-10 flex flex-wrap justify-center gap-4">
                   <Link href="/dashboard">
                     <Button size="lg" className="h-14 rounded-full px-8 text-lg">
                       Initialize Protocol
@@ -98,8 +85,9 @@ function HomeContent() {
                       View Documentation
                     </Button>
                   </Link>
-                </motion.div>
-              </div>
+                </div>
+              </ScrambleIn>
+            </div>
 
               <motion.div
             style={{ opacity: useTransform(scrollYProgress, [0, 0.2], [1, 0]) }}
