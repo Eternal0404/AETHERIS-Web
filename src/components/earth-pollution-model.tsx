@@ -112,13 +112,14 @@ function Earth() {
       {/* Atmosphere Glow */}
       <mesh scale={[1.18, 1.18, 1.18]}>
         <sphereGeometry args={[2, 64, 64]} />
-        <shaderMaterial
-          vertexShader={atmosphereVertexShader}
-          fragmentShader={atmosphereFragmentShader}
-          side={THREE.BackSide}
-          transparent
-          blending={THREE.AdditiveBlending}
-        />
+          <shaderMaterial
+            vertexShader={atmosphereVertexShader}
+            fragmentShader={atmosphereFragmentShader}
+            side={THREE.BackSide}
+            transparent
+            blending={THREE.AdditiveBlending}
+            uniforms={useMemo(() => ({}), [])}
+          />
       </mesh>
       
       {/* Main Earth Body */}
