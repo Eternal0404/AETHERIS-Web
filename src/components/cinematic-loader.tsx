@@ -4,7 +4,8 @@ import * as React from "react"
 import { motion, AnimatePresence } from "framer-motion"
 
 // Global to track if loader has been shown in the current window session (memory-safe)
-let hasShownInSession = false
+// Use a window property for absolute persistence across Fast Refresh / internal navigation
+const GLOBAL_KEY = "aetheris-session-initialized"
 
 export function CinematicLoader() {
   const [mounted, setMounted] = React.useState(false)
@@ -13,21 +14,28 @@ export function CinematicLoader() {
   React.useEffect(() => {
     setMounted(true)
     
-    // If we've already shown it in this memory session, or sessionStorage has it, don't show
-    if (hasShownInSession) return
-
-    const hasLoaded = sessionStorage.getItem("aetheris-loaded")
-    if (!hasLoaded) {
-      setLoading(true)
-      hasShownInSession = true
-      const timer = setTimeout(() => {
-        setLoading(false)
-        sessionStorage.setItem("aetheris-loaded", "true")
-      }, 2500)
-      return () => clearTimeout(timer)
-    } else {
-      hasShownInSession = true
+    // Check if we already initialized in this window instance
+    if (typeof window !== "undefined" && (window as any)[GLOBAL_KEY]) {
+      return
     }
+
+    // Check sessionStorage as a fallback/secondary layer
+    const hasLoaded = sessionStorage.getItem("aetheris-loaded")
+    if (hasLoaded) {
+      if (typeof window !== "undefined") (window as any)[GLOBAL_KEY] = true
+      return
+    }
+
+    // If we get here, it's a fresh session
+    setLoading(true)
+    if (typeof window !== "undefined") (window as any)[GLOBAL_KEY] = true
+    
+    const timer = setTimeout(() => {
+      setLoading(false)
+      sessionStorage.setItem("aetheris-loaded", "true")
+    }, 2500)
+    
+    return () => clearTimeout(timer)
   }, [])
 
   if (!mounted) return null
