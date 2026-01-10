@@ -218,7 +218,9 @@ function HomeContent() {
           <footer className="border-t border-foreground/10 px-6 py-24 text-center">
             <h2 className="text-4xl font-bold tracking-tighter">READY TO SYNC?</h2>
             <p className="mt-4 text-muted-foreground">Join the elite network today.</p>
-            <Button size="lg" className="mt-8 rounded-full">Get Started <ArrowRight className="ml-2 h-4 w-4" /></Button>
+            <a href="/auth">
+              <Button size="lg" className="mt-8 rounded-full">Get Started <ArrowRight className="ml-2 h-4 w-4" /></Button>
+            </a>
           </footer>
         </motion.div>);
 
