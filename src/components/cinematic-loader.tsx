@@ -4,11 +4,18 @@ import * as React from "react"
 import { motion, AnimatePresence } from "framer-motion"
 
 export function CinematicLoader() {
-  const [loading, setLoading] = React.useState(true)
+  const [loading, setLoading] = React.useState(false)
 
   React.useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 2500)
-    return () => clearTimeout(timer)
+    const hasLoaded = sessionStorage.getItem("aetheris-loaded")
+    if (!hasLoaded) {
+      setLoading(true)
+      const timer = setTimeout(() => {
+        setLoading(false)
+        sessionStorage.setItem("aetheris-loaded", "true")
+      }, 2500)
+      return () => clearTimeout(timer)
+    }
   }, [])
 
   return (
