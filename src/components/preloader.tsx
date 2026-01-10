@@ -3,6 +3,8 @@
 import * as React from "react"
 import { motion, AnimatePresence } from "framer-motion"
 
+let hasPreloadedInSession = false
+
 export function Preloader({ onComplete }: { onComplete: () => void }) {
   const [mounted, setMounted] = React.useState(false)
   const [progress, setProgress] = React.useState(0)
@@ -11,15 +13,23 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
 
   React.useEffect(() => {
     setMounted(true)
+    
+    if (hasPreloadedInSession) {
+      setShouldSkip(true)
+      onComplete()
+      return
+    }
+
     const hasLoaded = sessionStorage.getItem("aetheris-preloader-loaded")
     if (hasLoaded) {
+      hasPreloadedInSession = true
       setShouldSkip(true)
       onComplete()
     }
   }, [onComplete])
 
   React.useEffect(() => {
-    if (!mounted || shouldSkip) return
+    if (!mounted || shouldSkip || hasPreloadedInSession) return
 
     const interval = setInterval(() => {
       setProgress((prev) => {
@@ -27,14 +37,15 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
           clearInterval(interval)
           setTimeout(() => {
             setIsDone(true)
+            hasPreloadedInSession = true
             sessionStorage.setItem("aetheris-preloader-loaded", "true")
             setTimeout(onComplete, 1000)
           }, 500)
           return 100
         }
-        return prev + Math.floor(Math.random() * 10) + 1
+        return prev + Math.floor(Math.random() * 15) + 5
       })
-    }, 100)
+    }, 80)
     return () => clearInterval(interval)
   }, [mounted, shouldSkip, onComplete])
 
