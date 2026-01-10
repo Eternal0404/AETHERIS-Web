@@ -46,6 +46,24 @@ const SOLUTIONS = [
     icon: <Recycle className="h-6 w-6" />,
     color: "bg-emerald-500",
     stats: "Deployment: Operational"
+  },
+  {
+    id: "drag",
+    title: "Plasma Brake",
+    subtitle: "Micro-Tether Propulsion",
+    description: "A propulsion-less system that uses a long, thin conducting tether to interact with Earth's ionosphere, creating electromagnetic drag to safely lower satellite altitude.",
+    icon: <Activity className="h-6 w-6" />,
+    color: "bg-purple-500",
+    stats: "Efficiency: 400% vs Chemical"
+  },
+  {
+    id: "recycling",
+    title: "In-Orbit Factory",
+    subtitle: "Orbital Manufacturing",
+    description: "Transforming junk into resources. Using robotic arms to collect debris and solar-powered furnaces to melt it into raw materials for 3D printing in space.",
+    icon: <Layers className="h-6 w-6" />,
+    color: "bg-cyan-500",
+    stats: "Prototype: TRL-4"
   }
 ];
 
