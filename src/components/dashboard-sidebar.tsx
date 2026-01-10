@@ -76,17 +76,17 @@ export function DashboardSidebar() {
           />
         </SidebarGroup>
 
-        <SidebarGroup label="INFRASTRUCTURE" collapsed={collapsed}>
-          <SidebarItem icon={Cpu} label="Compute Units" collapsed={collapsed} />
-          <SidebarItem icon={Database} label="Storage Vaults" collapsed={collapsed} />
-          <SidebarItem icon={Shield} label="Security Core" collapsed={collapsed} />
-        </SidebarGroup>
+          <SidebarGroup label="INFRASTRUCTURE" collapsed={collapsed}>
+            <SidebarItem icon={Cpu} label="Compute Units" href="/dashboard/infrastructure/compute" collapsed={collapsed} />
+            <SidebarItem icon={Database} label="Storage Vaults" href="/dashboard/infrastructure/storage" collapsed={collapsed} />
+            <SidebarItem icon={Shield} label="Security Core" href="/dashboard/infrastructure/security" collapsed={collapsed} />
+          </SidebarGroup>
 
-        <SidebarGroup label="DEVELOPMENT" collapsed={collapsed}>
-          <SidebarItem icon={Terminal} label="API Console" collapsed={collapsed} />
-          <SidebarItem icon={FileText} label="Documentation" href="/docs" collapsed={collapsed} />
-          <SidebarItem icon={Settings} label="System Config" collapsed={collapsed} />
-        </SidebarGroup>
+          <SidebarGroup label="DEVELOPMENT" collapsed={collapsed}>
+            <SidebarItem icon={Terminal} label="API Console" href="/dashboard/development/api" collapsed={collapsed} />
+            <SidebarItem icon={FileText} label="Documentation" href="/docs" collapsed={collapsed} />
+            <SidebarItem icon={Settings} label="System Config" href="/dashboard/settings" collapsed={collapsed} />
+          </SidebarGroup>
       </nav>
 
       <div className="p-4">
