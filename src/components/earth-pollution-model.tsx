@@ -111,11 +111,11 @@ export function EarthPollutionModel() {
         
         <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
         
-        <React.Suspense fallback={null}>
+        <Suspense fallback={null}>
           <Earth />
           <DebrisField count={8000} />
           <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.5} />
-        </React.Suspense>
+        </Suspense>
       </Canvas>
     </div>
   );
