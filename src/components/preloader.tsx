@@ -4,15 +4,22 @@ import * as React from "react"
 import { motion, AnimatePresence } from "framer-motion"
 
 export function Preloader({ onComplete }: { onComplete: () => void }) {
+  const [mounted, setMounted] = React.useState(false)
   const [progress, setProgress] = React.useState(0)
   const [isDone, setIsDone] = React.useState(false)
+  const [shouldSkip, setShouldSkip] = React.useState(false)
 
   React.useEffect(() => {
+    setMounted(true)
     const hasLoaded = sessionStorage.getItem("aetheris-preloader-loaded")
     if (hasLoaded) {
+      setShouldSkip(true)
       onComplete()
-      return
     }
+  }, [onComplete])
+
+  React.useEffect(() => {
+    if (!mounted || shouldSkip) return
 
     const interval = setInterval(() => {
       setProgress((prev) => {
@@ -29,7 +36,7 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
       })
     }, 100)
     return () => clearInterval(interval)
-  }, [onComplete])
+  }, [mounted, shouldSkip, onComplete])
 
   const logoVariants = {
     initial: {
@@ -50,6 +57,8 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
       },
     },
   }
+
+  if (!mounted || shouldSkip) return null
 
   return (
     <AnimatePresence>
