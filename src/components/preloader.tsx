@@ -3,7 +3,7 @@
 import * as React from "react"
 import { motion, AnimatePresence } from "framer-motion"
 
-let hasPreloadedInSession = false
+const GLOBAL_KEY = "aetheris-session-initialized"
 
 export function Preloader({ onComplete }: { onComplete: () => void }) {
   const [mounted, setMounted] = React.useState(false)
@@ -14,22 +14,24 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
   React.useEffect(() => {
     setMounted(true)
     
-    if (hasPreloadedInSession) {
+    // Check global window state
+    if (typeof window !== "undefined" && (window as any)[GLOBAL_KEY]) {
       setShouldSkip(true)
       onComplete()
       return
     }
 
-    const hasLoaded = sessionStorage.getItem("aetheris-preloader-loaded")
+    // Check sessionStorage (using the same key as CinematicLoader for consistency)
+    const hasLoaded = sessionStorage.getItem("aetheris-loaded")
     if (hasLoaded) {
-      hasPreloadedInSession = true
+      if (typeof window !== "undefined") (window as any)[GLOBAL_KEY] = true
       setShouldSkip(true)
       onComplete()
     }
   }, [onComplete])
 
   React.useEffect(() => {
-    if (!mounted || shouldSkip || hasPreloadedInSession) return
+    if (!mounted || shouldSkip) return
 
     const interval = setInterval(() => {
       setProgress((prev) => {
@@ -37,8 +39,8 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
           clearInterval(interval)
           setTimeout(() => {
             setIsDone(true)
-            hasPreloadedInSession = true
-            sessionStorage.setItem("aetheris-preloader-loaded", "true")
+            if (typeof window !== "undefined") (window as any)[GLOBAL_KEY] = true
+            sessionStorage.setItem("aetheris-loaded", "true")
             setTimeout(onComplete, 1000)
           }, 500)
           return 100
