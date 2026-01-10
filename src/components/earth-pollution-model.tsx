@@ -124,12 +124,12 @@ function Earth() {
       {/* Main Earth Body */}
       <mesh ref={earthRef}>
         <sphereGeometry args={[2, 64, 64]} />
-        <meshStandardMaterial
+        <meshPhongMaterial
           map={colorMap}
           normalMap={normalMap}
           specularMap={specularMap}
-          roughness={0.7}
-          metalness={0.1}
+          specular={new THREE.Color(0x333333)}
+          shininess={5}
         />
       </mesh>
 
