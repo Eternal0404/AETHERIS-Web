@@ -4,6 +4,7 @@ import * as React from "react";
 import { motion, useScroll, useTransform, useVelocity, useSpring, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
+import { ScrambleIn } from "@/components/scramble-in";
 import { TiltCard, TelemetryWaveform } from "@/components/interactive-cards";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Cpu, Globe, Zap, Database, Shield, Activity } from "lucide-react";
