@@ -246,14 +246,14 @@ function TimelineItem({ item }: { item: typeof timelineItems[0] }) {
       ref={ref}
       className="min-w-[400px] snap-center"
     >
-      <div className="text-[10px] font-mono uppercase tracking-[0.4em] text-white/40 mb-2">{item.year}</div>
+      <div className="text-[10px] font-mono uppercase tracking-[0.4em] text-muted-foreground mb-2">{item.year}</div>
       <motion.h3 
         style={{ scale: maskSize }}
-        className="text-4xl font-bold tracking-tight text-white mb-4"
+        className="text-4xl font-bold tracking-tight mb-4"
       >
         {item.title}
       </motion.h3>
-      <p className="text-white/60 leading-relaxed">
+      <p className="text-muted-foreground leading-relaxed">
         {item.description}
       </p>
     </motion.div>
