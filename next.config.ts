@@ -23,13 +23,14 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  turbopack: {
-    rules: {
-      "*.{jsx,tsx}": {
-        loaders: [LOADER]
+    turbopack: {
+      rules: {
+        "**/*.{js,jsx,ts,tsx}": {
+          loaders: [LOADER]
+        }
       }
     }
-  }
+
 };
 
 export default nextConfig;
