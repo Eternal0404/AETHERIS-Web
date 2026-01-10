@@ -4,9 +4,11 @@ import * as React from "react"
 import { motion, AnimatePresence } from "framer-motion"
 
 export function CinematicLoader() {
+  const [mounted, setMounted] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
 
   React.useEffect(() => {
+    setMounted(true)
     const hasLoaded = sessionStorage.getItem("aetheris-loaded")
     if (!hasLoaded) {
       setLoading(true)
@@ -17,6 +19,8 @@ export function CinematicLoader() {
       return () => clearTimeout(timer)
     }
   }, [])
+
+  if (!mounted) return null
 
   return (
     <AnimatePresence mode="wait">
@@ -31,7 +35,6 @@ export function CinematicLoader() {
           className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background"
         >
           <div className="relative">
-            {/* Geometric background shapes */}
             <motion.div
               initial={{ scale: 0, rotate: 0 }}
               animate={{ 
@@ -51,7 +54,6 @@ export function CinematicLoader() {
               className="absolute -inset-32 border border-primary/10 rounded-full"
             />
 
-            {/* Core logo animation */}
             <div className="relative flex items-center justify-center">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -62,7 +64,6 @@ export function CinematicLoader() {
                 AETHERIS
               </motion.div>
               
-              {/* Scanline effect */}
               <motion.div
                 initial={{ top: "-100%" }}
                 animate={{ top: "200%" }}
@@ -101,7 +102,6 @@ export function CinematicLoader() {
             </div>
           </motion.div>
 
-          {/* Background particles/grid */}
           <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)]" />
         </motion.div>
       )}
