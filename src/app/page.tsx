@@ -2,22 +2,17 @@
 
 import * as React from "react";
 import { motion, useScroll, useTransform, useVelocity, useSpring, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 import { Navbar } from "@/components/navbar";
-import { Preloader } from "@/components/preloader";
 import { TiltCard, TelemetryWaveform } from "@/components/interactive-cards";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Cpu, Globe, Zap, Database, Shield, Activity } from "lucide-react";
 
 export default function Home() {
   const [mounted, setMounted] = React.useState(false);
-  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     setMounted(true);
-    const hasLoaded = sessionStorage.getItem("aetheris-loaded");
-    if (hasLoaded) {
-      setLoading(false);
-    }
   }, []);
 
   if (!mounted) {
@@ -32,13 +27,7 @@ export default function Home() {
 
   return (
     <main className="relative min-h-screen">
-      <AnimatePresence mode="wait">
-        {loading ? (
-          <Preloader key="preloader" onComplete={() => setLoading(false)} />
-        ) : (
-          <HomeContent key="content" />
-        )}
-      </AnimatePresence>
+      <HomeContent />
     </main>
   );
 }
