@@ -79,13 +79,16 @@ function HomeContent() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.8 }}
             className="mt-10 flex flex-wrap justify-center gap-4">
-
-                <Button size="lg" className="h-14 rounded-full px-8 text-lg">
-                  Initialize Protocol
-                </Button>
-                <Button size="lg" variant="outline" className="h-14 rounded-full px-8 text-lg glass">
-                  View Documentation
-                </Button>
+                <a href="/dashboard">
+                  <Button size="lg" className="h-14 rounded-full px-8 text-lg">
+                    Initialize Protocol
+                  </Button>
+                </a>
+                <a href="/docs">
+                  <Button size="lg" variant="outline" className="h-14 rounded-full px-8 text-lg glass">
+                    View Documentation
+                  </Button>
+                </a>
               </motion.div>
             </div>
 
