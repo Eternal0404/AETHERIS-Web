@@ -11,32 +11,36 @@ export function CinematicLoader() {
   const [mounted, setMounted] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
 
-  React.useEffect(() => {
-    setMounted(true)
-    
-    // Check if we already initialized in this window instance
-    if (typeof window !== "undefined" && (window as any)[GLOBAL_KEY]) {
-      return
-    }
+    React.useEffect(() => {
+      setMounted(true)
+      
+      // Check if we already initialized in this window instance
+      if (typeof window !== "undefined" && (window as any)[GLOBAL_KEY]) {
+        return
+      }
 
-    // Check sessionStorage as a fallback/secondary layer
-    const hasLoaded = sessionStorage.getItem("aetheris-loaded")
-    if (hasLoaded) {
-      if (typeof window !== "undefined") (window as any)[GLOBAL_KEY] = true
-      return
-    }
+      // Check sessionStorage as a fallback/secondary layer
+      const hasLoaded = sessionStorage.getItem("aetheris-loaded")
+      if (hasLoaded) {
+        if (typeof window !== "undefined") (window as any)[GLOBAL_KEY] = true
+        return
+      }
 
-    // If we get here, it's a fresh session
-    setLoading(true)
-    if (typeof window !== "undefined") (window as any)[GLOBAL_KEY] = true
-    
-    const timer = setTimeout(() => {
-      setLoading(false)
-      sessionStorage.setItem("aetheris-loaded", "true")
-    }, 2500)
-    
-    return () => clearTimeout(timer)
-  }, [])
+      // If we get here, it's a fresh session
+      // Set the session flag IMMEDIATELY to prevent race conditions during navigation
+      if (typeof window !== "undefined") {
+        (window as any)[GLOBAL_KEY] = true
+        sessionStorage.setItem("aetheris-loaded", "true")
+      }
+      
+      setLoading(true)
+      
+      const timer = setTimeout(() => {
+        setLoading(false)
+      }, 2500)
+      
+      return () => clearTimeout(timer)
+    }, [])
 
   if (!mounted) return null
 
