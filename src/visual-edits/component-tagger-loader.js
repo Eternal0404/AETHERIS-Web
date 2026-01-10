@@ -468,12 +468,14 @@ function componentTagger(src, map) {
             return done(null, src, map);
         
         // Skip files that use React Three Fiber to avoid R3F attribute errors
-        if (src.includes('@react-three/fiber') || 
-            src.includes('@react-three/drei') || 
-            src.includes('from "three"') || 
-            src.includes("from 'three'") ||
-            src.includes('<Canvas') ||
-            src.includes('useFrame(')) {
+        const content = typeof src === 'string' ? src : src.toString('utf8');
+        if (content.includes('@react-three/fiber') || 
+            content.includes('@react-three/drei') || 
+            content.includes('from "three"') || 
+            content.includes("from 'three'") ||
+            content.includes('<Canvas') ||
+            content.includes('useFrame') ||
+            content.includes('THREE.')) {
             return done(null, src, map);
         }
 
