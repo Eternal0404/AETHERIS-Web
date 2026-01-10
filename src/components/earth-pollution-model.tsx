@@ -7,7 +7,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Sphere, MeshDistortMaterial, Float, Stars } from "@react-three/drei";
 import * as THREE from "three";
 
-function DebrisField({ count = 5000 }) {
+function DebrisField({ count = 5000 }: { count?: number }) {
   const points = React.useMemo(() => {
     const p = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
@@ -24,7 +24,7 @@ function DebrisField({ count = 5000 }) {
 
   const ref = React.useRef<THREE.Points>(null);
 
-  useFrame(() => {
+  useFrame((state) => {
     if (ref.current) {
       ref.current.rotation.y += 0.001;
       ref.current.rotation.x += 0.0005;
@@ -32,8 +32,8 @@ function DebrisField({ count = 5000 }) {
   });
 
   return (
-    <points ref={ref}>
-      <bufferGeometry>
+    <points ref={ref} frustumCulled={false}>
+      <bufferGeometry attach="geometry">
         <bufferAttribute
           attach="attributes-position"
           count={points.length / 3}
@@ -42,6 +42,7 @@ function DebrisField({ count = 5000 }) {
         />
       </bufferGeometry>
       <pointsMaterial
+        attach="material"
         transparent
         color="#ff4444"
         size={0.02}
@@ -101,10 +102,10 @@ function Earth() {
   );
 }
 
-export function EarthPollutionModel() {
+export function EarthPollutionModel(_props: any) {
   return (
     <div className="h-full w-full">
-      <Canvas camera={{ position: [0, 0, 6], fov: 45 }}>
+      <Canvas camera={{ position: [0, 0, 6], fov: 45 }} dpr={[1, 2]}>
         <color attach="background" args={["#000000"]} />
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} intensity={2} />
