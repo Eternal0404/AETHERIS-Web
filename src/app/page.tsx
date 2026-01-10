@@ -123,7 +123,7 @@ function HomeContent() {
                 <p className="text-muted-foreground">Modular components built for scale and performance.</p>
               </div>
               
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:grid-rows-2">
+              <ScrambleIn stagger={0.1} className="grid grid-cols-1 gap-6 md:grid-cols-3 md:grid-rows-2">
                 <TiltCard className="md:col-span-2">
                   <div className="flex h-full flex-col justify-between">
                     <div>
@@ -199,7 +199,7 @@ function HomeContent() {
                     </div>
                   </div>
                 </TiltCard>
-              </div>
+              </ScrambleIn>
             </section>
   
             {/* Horizontal Scroll Timeline */}
