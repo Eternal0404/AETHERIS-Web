@@ -476,7 +476,10 @@ function componentTagger(src, map) {
             content.includes("from 'three'") ||
             content.includes('<Canvas') ||
             content.includes('useFrame') ||
-            content.includes('THREE.')) {
+            content.includes('THREE.') ||
+            content.includes('orchids-skip-tagging') ||
+            content.includes('react-three') ||
+            content.includes('three-fiber')) {
             return done(null, src, map);
         }
 
