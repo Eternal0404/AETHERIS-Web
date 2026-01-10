@@ -465,21 +465,14 @@ const getSemanticName = (node, mapContext, imageAliases) => {
 function componentTagger(src, map) {
     const done = this.async();
     try {
-        if (/node_modules/.test(this.resourcePath))
+        if (/node_modules/.test(this.resourcePath) || /earth-pollution-model/.test(this.resourcePath))
             return done(null, src, map);
         
         // Skip files that use React Three Fiber to avoid R3F attribute errors
         const content = typeof src === 'string' ? src : src.toString('utf8');
-        if (content.includes('@react-three/fiber') || 
-            content.includes('@react-three/drei') || 
-            content.includes('from "three"') || 
-            content.includes("from 'three'") ||
-            content.includes('<Canvas') ||
-            content.includes('useFrame') ||
-            content.includes('THREE.') ||
-            content.includes('orchids-skip-tagging') ||
-            content.includes('react-three') ||
-            content.includes('three-fiber')) {
+        const isR3F = /@react-three\/(fiber|drei)|from ['"]three['"]|<Canvas|useFrame|THREE\.|orchids-skip-tagging|react-three|three-fiber/.test(content);
+        
+        if (isR3F) {
             return done(null, src, map);
         }
 
