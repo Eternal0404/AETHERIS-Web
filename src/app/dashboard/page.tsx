@@ -54,22 +54,26 @@ function HeatmapScene() {
     meshRef.current.rotation.y = Math.sin(time / 2)
   })
 
-  return (
-    <>
-      <ambientLight intensity={0.5} />
-      <pointLight position={[10, 10, 10]} />
-      <Float speed={2} rotationIntensity={1} floatIntensity={1}>
-        <Sphere ref={meshRef} args={[1, 100, 100]} scale={2}>
-          <MeshDistortMaterial
-            color="#22d3ee"
-            attach="material"
-            distort={0.4}
-            speed={2}
-            roughness={0}
-          />
-        </Sphere>
-      </Float>
-    </>
+  return React.createElement(
+    React.Fragment,
+    null,
+    React.createElement("ambientLight", { intensity: 0.5 }),
+    React.createElement("pointLight", { position: [10, 10, 10] }),
+    React.createElement(
+      Float,
+      { speed: 2, rotationIntensity: 1, floatIntensity: 1 },
+      React.createElement(
+        Sphere,
+        { ref: meshRef, args: [1, 100, 100], scale: 2 },
+        React.createElement(MeshDistortMaterial, {
+          color: "#22d3ee",
+          attach: "material",
+          distort: 0.4,
+          speed: 2,
+          roughness: 0,
+        })
+      )
+    )
   )
 }
 
