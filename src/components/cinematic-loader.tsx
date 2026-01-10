@@ -3,20 +3,30 @@
 import * as React from "react"
 import { motion, AnimatePresence } from "framer-motion"
 
+// Global to track if loader has been shown in the current window session (memory-safe)
+let hasShownInSession = false
+
 export function CinematicLoader() {
   const [mounted, setMounted] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
 
   React.useEffect(() => {
     setMounted(true)
+    
+    // If we've already shown it in this memory session, or sessionStorage has it, don't show
+    if (hasShownInSession) return
+
     const hasLoaded = sessionStorage.getItem("aetheris-loaded")
     if (!hasLoaded) {
       setLoading(true)
+      hasShownInSession = true
       const timer = setTimeout(() => {
         setLoading(false)
         sessionStorage.setItem("aetheris-loaded", "true")
       }, 2500)
       return () => clearTimeout(timer)
+    } else {
+      hasShownInSession = true
     }
   }, [])
 
