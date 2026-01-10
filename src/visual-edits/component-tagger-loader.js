@@ -348,6 +348,7 @@ const dreiElems = [
     "AdaptiveDpr",
     "Earth",
     "DebrisField",
+    "EarthPollutionModel",
     "Suspense",
     "React.Suspense"
 ];
