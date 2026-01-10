@@ -91,11 +91,27 @@ function HomeContent() {
 
             <motion.div 
               style={{ opacity: useTransform(scrollYProgress, [0, 0.2], [1, 0]) }}
-              className="absolute bottom-10 left-1/2 -translate-x-1/2"
+              className="absolute bottom-6 left-1/2 -translate-x-1/2"
             >
-              <div className="flex flex-col items-center gap-2">
-                <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Scroll to explore</span>
-                <div className="h-12 w-px bg-gradient-to-b from-primary to-transparent" />
+              <div className="flex flex-col items-center gap-4">
+                <div className="flex items-center gap-12 text-muted-foreground/40">
+                  <motion.div
+                    animate={{ y: [0, -5, 0], opacity: [0.3, 0.6, 0.3] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    <Shield className="h-4 w-4" />
+                  </motion.div>
+                  <motion.div
+                    animate={{ y: [0, -5, 0], opacity: [0.3, 0.6, 0.3] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+                  >
+                    <Zap className="h-4 w-4" />
+                  </motion.div>
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                  <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Scroll to explore</span>
+                  <div className="h-12 w-px bg-gradient-to-b from-primary to-transparent" />
+                </div>
               </div>
             </motion.div>
           </section>
