@@ -187,10 +187,10 @@ function HomeContent() {
           </section>
 
           {/* Horizontal Scroll Timeline */}
-          <section className="bg-foreground text-background py-24">
-            <div className="px-6 mb-12">
-              <h2 className="text-3xl font-bold tracking-tight text-white">Our Journey</h2>
-              <p className="text-white/60">Tracing the path of innovation.</p>
+          <section className="bg-background border-y border-foreground/5 py-24">
+            <div className="px-6 mb-12 text-center md:text-left">
+              <h2 className="text-3xl font-bold tracking-tight">Our Journey</h2>
+              <p className="text-muted-foreground">Tracing the path of innovation.</p>
             </div>
             <HorizontalTimeline />
           </section>
