@@ -14,7 +14,7 @@ export default function Home() {
 
   React.useEffect(() => {
     setMounted(true);
-    const hasLoaded = sessionStorage.getItem("aetheris-preloader-loaded");
+    const hasLoaded = sessionStorage.getItem("aetheris-loaded");
     if (hasLoaded) {
       setLoading(false);
     }
