@@ -23,17 +23,20 @@ export function Navbar() {
             AETHERIS
           </span>
         </Link>
-        <div className="hidden gap-6 md:flex">
-          <Link href="/dashboard" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
-            Dashboard
-          </Link>
-          <Link href="/resources" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
-            Resources
-          </Link>
-          <Link href="/docs" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
-            Docs
-          </Link>
-        </div>
+          <div className="hidden gap-6 md:flex">
+            <Link href="/dashboard" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+              Dashboard
+            </Link>
+            <Link href="/education/space-pollution" className="text-sm font-medium text-primary transition-colors hover:text-primary/80">
+              Education
+            </Link>
+            <Link href="/resources" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+              Resources
+            </Link>
+            <Link href="/docs" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+              Docs
+            </Link>
+          </div>
       </div>
 
       <div className="flex items-center gap-4">
