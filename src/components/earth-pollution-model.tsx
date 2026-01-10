@@ -1,15 +1,16 @@
 "use client";
 
 import * as React from "react";
+import { Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Sphere, MeshDistortMaterial, Float, Stars, Points, PointMaterial } from "@react-three/drei";
+import { OrbitControls, Sphere, MeshDistortMaterial, Float, Stars } from "@react-three/drei";
 import * as THREE from "three";
 
 function DebrisField({ count = 5000 }) {
   const points = React.useMemo(() => {
     const p = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      const r = 2.2 + Math.random() * 2; // Orbit radius
+      const r = 2.2 + Math.random() * 2;
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(2 * Math.random() - 1);
       
@@ -22,7 +23,7 @@ function DebrisField({ count = 5000 }) {
 
   const ref = React.useRef<THREE.Points>(null);
 
-  useFrame((state) => {
+  useFrame(() => {
     if (ref.current) {
       ref.current.rotation.y += 0.001;
       ref.current.rotation.x += 0.0005;
@@ -30,8 +31,16 @@ function DebrisField({ count = 5000 }) {
   });
 
   return (
-    <Points ref={ref} positions={points} stride={3} frustumCulled={false}>
-      <PointMaterial
+    <points ref={ref}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          count={points.length / 3}
+          array={points}
+          itemSize={3}
+        />
+      </bufferGeometry>
+      <pointsMaterial
         transparent
         color="#ff4444"
         size={0.02}
@@ -39,7 +48,7 @@ function DebrisField({ count = 5000 }) {
         depthWrite={false}
         blending={THREE.AdditiveBlending}
       />
-    </Points>
+    </points>
   );
 }
 
