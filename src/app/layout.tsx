@@ -5,7 +5,6 @@ import ErrorReporter from "@/components/ErrorReporter";
 import Script from "next/script";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
-import { CinematicLoader } from "@/components/cinematic-loader";
 
 export const metadata: Metadata = {
   title: "AETHERIS | Digital Ecosystem",
@@ -34,7 +33,6 @@ export default function RootLayout({
             data-orchids-project-id="f213b8b6-19a3-482c-9949-a4dc436fce69"
           />
             <ErrorReporter />
-            <CinematicLoader />
             <Script
             src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/scripts//route-messenger.js"
             strategy="afterInteractive"
