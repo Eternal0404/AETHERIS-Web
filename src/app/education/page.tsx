@@ -6,10 +6,18 @@ import { Navbar } from "@/components/navbar";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Rocket, Globe, Telescope, ShieldAlert, Award, ArrowRight } from "lucide-react";
+import { Rocket, Globe, Telescope, ShieldAlert, Award, ArrowRight, Atom } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const TOPICS = [
+  {
+    title: "Quantum Mechanics",
+    description: "Explore the strange world of subatomic particles where reality becomes probabilistic and cats are alive and dead.",
+    icon: <Atom className="h-8 w-8" />,
+    href: "/education/quantum-mechanics",
+    color: "from-purple-500 to-pink-600",
+    image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&q=80&w=2070",
+  },
   {
     title: "Solar System",
     description: "A comprehensive guide to our cosmic neighborhood, from the Sun to the Kuiper Belt.",
@@ -62,7 +70,7 @@ export default function EducationHub() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {TOPICS.map((topic, i) => (
             <motion.div
               key={topic.title}
