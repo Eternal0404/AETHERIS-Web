@@ -384,6 +384,7 @@ export default function DashboardPage() {
       <WebGLHeatmap />
 
       <DndContext 
+        id="dashboard-dnd-context"
         sensors={sensors}
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
