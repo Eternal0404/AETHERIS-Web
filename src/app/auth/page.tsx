@@ -40,7 +40,8 @@ export default function AuthPage() {
         })
         if (error) throw error
         toast.success("Successfully signed in")
-        router.push("/dashboard")
+        // Use window.location.href for a hard redirect to ensure cookies are synced
+        window.location.href = "/dashboard"
       } else {
         const { error } = await supabase.auth.signUp({
           email,
