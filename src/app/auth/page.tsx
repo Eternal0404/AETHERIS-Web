@@ -34,13 +34,17 @@ export default function AuthPage() {
 
     try {
         if (isLogin) {
-          const { error } = await supabase.auth.signInWithPassword({
+          const { data, error } = await supabase.auth.signInWithPassword({
             email,
             password,
           })
           if (error) throw error
-          toast.success("Successfully signed in")
-          window.location.href = "/dashboard"
+          if (data.session) {
+            toast.success("Successfully signed in")
+            setTimeout(() => {
+              window.location.href = "/dashboard"
+            }, 100)
+          }
         } else {
         const { error } = await supabase.auth.signUp({
           email,
