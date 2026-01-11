@@ -33,8 +33,12 @@ export async function middleware(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser()
 
+  const isPublicRoute = 
+    request.nextUrl.pathname === '/' || 
+    request.nextUrl.pathname.startsWith('/auth')
+
   // Protected routes logic
-  if (!user && request.nextUrl.pathname.startsWith('/dashboard')) {
+  if (!user && !isPublicRoute) {
     return NextResponse.redirect(new URL('/auth', request.url))
   }
 
