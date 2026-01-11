@@ -40,11 +40,18 @@ const data = Array.from({ length: 24 }, (_, i) => ({
 
 export default function TelemetryPage() {
   const [isRefreshing, setIsRefreshing] = React.useState(false)
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const refreshData = () => {
     setIsRefreshing(true)
     setTimeout(() => setIsRefreshing(false), 1000)
   }
+
+  if (!mounted) return <div className="min-h-screen bg-black" />
 
   return (
     <div className="space-y-8 pb-12">

@@ -30,7 +30,15 @@ const data = Array.from({ length: 24 }, (_, i) => ({
 }))
 
 export default function TrafficPage({ params }: { params: { type: string } }) {
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
+
   const isIncoming = true // Simplified for both in/out
+
+  if (!mounted) return <div className="min-h-screen bg-black" />
 
   return (
     <div className="space-y-8 pb-12">

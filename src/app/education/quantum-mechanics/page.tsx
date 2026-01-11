@@ -236,22 +236,22 @@ function AnimatedAtom() {
       <motion.div
         className="absolute inset-0 rounded-full border border-blue-500/30"
         animate={{ rotate: 360 }}
-        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+        transition={{ duration: 8, repeat: 999999, ease: "linear" }}
       />
       <motion.div
         className="absolute inset-4 rounded-full border border-purple-500/30"
         animate={{ rotate: -360 }}
-        transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+        transition={{ duration: 6, repeat: 999999, ease: "linear" }}
       />
       <motion.div
         className="absolute inset-8 rounded-full border border-cyan-500/30"
         animate={{ rotate: 360 }}
-        transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+        transition={{ duration: 4, repeat: 999999, ease: "linear" }}
       />
       <motion.div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-4 w-4 rounded-full bg-gradient-to-br from-blue-400 to-purple-600 shadow-[0_0_30px_rgba(139,92,246,0.8)]"
         animate={{ scale: [1, 1.2, 1] }}
-        transition={{ duration: 2, repeat: Infinity }}
+        transition={{ duration: 2, repeat: 999999 }}
       />
       {[0, 60, 120, 180, 240, 300].map((angle, i) => (
         <motion.div
@@ -261,7 +261,7 @@ function AnimatedAtom() {
             x: [Math.cos((angle * Math.PI) / 180) * 100, Math.cos(((angle + 360) * Math.PI) / 180) * 100],
             y: [Math.sin((angle * Math.PI) / 180) * 100, Math.sin(((angle + 360) * Math.PI) / 180) * 100],
           }}
-          transition={{ duration: 4 + i * 0.5, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: 4 + i * 0.5, repeat: 999999, ease: "linear" }}
           style={{ marginLeft: -4, marginTop: -4 }}
         />
       ))}
@@ -279,7 +279,7 @@ function WaveAnimation() {
         strokeWidth="2"
         initial={{ pathLength: 0, opacity: 0 }}
         animate={{ pathLength: 1, opacity: 1 }}
-        transition={{ duration: 2, repeat: Infinity, repeatType: "loop" }}
+        transition={{ duration: 2, repeat: 999999, repeatType: "loop" }}
       />
       <motion.path
         d="M 0 50 Q 50 100, 100 50 T 200 50 T 300 50 T 400 50"
@@ -289,7 +289,7 @@ function WaveAnimation() {
         strokeOpacity={0.3}
         initial={{ pathLength: 0 }}
         animate={{ pathLength: 1 }}
-        transition={{ duration: 2, delay: 0.5, repeat: Infinity, repeatType: "loop" }}
+        transition={{ duration: 2, delay: 0.5, repeat: 999999, repeatType: "loop" }}
       />
     </svg>
   );
@@ -314,7 +314,7 @@ function ProbabilityCloud() {
           }}
           transition={{
             duration: 2 + Math.random() * 2,
-            repeat: Infinity,
+            repeat: 999999,
             delay: Math.random() * 2,
           }}
         />
@@ -344,7 +344,7 @@ function DoubleSlitVisualization() {
               width: [0, Math.sin(i * 0.5) * 30 + 10, 0],
               opacity: [0, Math.sin(i * 0.5) * 0.8 + 0.2, 0],
             }}
-            transition={{ duration: 3, repeat: Infinity, delay: i * 0.1 }}
+            transition={{ duration: 3, repeat: 999999, delay: i * 0.1 }}
           />
         ))}
       </div>
@@ -357,7 +357,7 @@ function DoubleSlitVisualization() {
             x: [0, 200],
             opacity: [1, 0],
           }}
-          transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.3 }}
+          transition={{ duration: 1.5, repeat: 999999, delay: i * 0.3 }}
         />
       ))}
     </div>
@@ -445,7 +445,7 @@ export default function QuantumMechanicsPage() {
 
         <motion.div
           animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
+          transition={{ duration: 2, repeat: 999999 }}
           className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30"
         >
           <span className="text-[10px] uppercase tracking-[0.3em] font-bold">Scroll to Explore</span>

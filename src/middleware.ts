@@ -31,12 +31,17 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  const { data: { user } } = await supabase.auth.getUser()
-  console.log('User status:', user ? 'Logged in' : 'Not logged in')
+    let user = null
+    try {
+      const { data } = await supabase.auth.getUser()
+      user = data.user
+    } catch (e) {
+      // Quietly ignore auth errors in middleware to reduce log noise
+    }
 
-  const isPublicRoute = 
-    request.nextUrl.pathname === '/' || 
-    request.nextUrl.pathname.startsWith('/auth')
+    const isPublicRoute = 
+      request.nextUrl.pathname === '/' || 
+      request.nextUrl.pathname.startsWith('/auth')
 
   // Protected routes logic
   if (!user && !isPublicRoute) {

@@ -83,11 +83,11 @@ export function TelemetryWaveform({ color = "var(--primary)" }: { color?: string
               Math.random() * 40 + 10 + "%",
             ],
           }}
-          transition={{
-            duration: 0.5 + Math.random(),
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+            transition={{
+              duration: 0.5 + Math.random(),
+              repeat: 999999,
+              ease: "easeInOut",
+            }}
           style={{ backgroundColor: color }}
           className="w-1 rounded-full opacity-50"
         />

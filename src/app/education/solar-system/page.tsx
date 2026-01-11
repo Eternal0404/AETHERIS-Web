@@ -182,205 +182,205 @@ export default function SolarSystemPage() {
       <section className="relative h-screen flex flex-col items-center justify-center overflow-hidden pt-20">
         <div className="absolute inset-0 z-0 opacity-40">
            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-900/20 via-black to-black" />
-           <motion.div 
-             animate={{ rotate: 360 }}
-             transition={{ duration: 100, repeat: Infinity, ease: "linear" }}
-             className="absolute inset-[-50%] border-[1px] border-white/5 rounded-full"
-           />
-           <motion.div 
-             animate={{ rotate: -360 }}
-             transition={{ duration: 150, repeat: Infinity, ease: "linear" }}
-             className="absolute inset-[-20%] border-[1px] border-white/5 rounded-full"
-           />
-        </div>
+             <motion.div 
+               animate={{ rotate: 360 }}
+               transition={{ duration: 100, repeat: 999999, ease: "linear" }}
+               className="absolute inset-[-50%] border-[1px] border-white/5 rounded-full"
+             />
+             <motion.div 
+               animate={{ rotate: -360 }}
+               transition={{ duration: 150, repeat: 999999, ease: "linear" }}
+               className="absolute inset-[-20%] border-[1px] border-white/5 rounded-full"
+             />
+          </div>
 
-        <div className="relative z-10 text-center px-6 max-w-4xl">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="mb-8 inline-flex items-center gap-2 rounded-full border border-yellow-500/50 bg-yellow-500/10 px-6 py-2 text-sm font-bold uppercase tracking-widest text-yellow-400 backdrop-blur-md"
+          <div className="relative z-10 text-center px-6 max-w-4xl">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="mb-8 inline-flex items-center gap-2 rounded-full border border-yellow-500/50 bg-yellow-500/10 px-6 py-2 text-sm font-bold uppercase tracking-widest text-yellow-400 backdrop-blur-md"
+            >
+              <Orbit className="h-4 w-4 animate-spin-slow" />
+              Solar System Explorer
+            </motion.div>
+            <motion.h1 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-8"
+            >
+              Our Cosmic <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500">NEIGHBORHOOD</span>
+            </motion.h1>
+            <motion.p
+               initial={{ opacity: 0, y: 30 }}
+               animate={{ opacity: 1, y: 0 }}
+               transition={{ delay: 0.1 }}
+               className="text-xl md:text-2xl text-white/60 font-light max-w-2xl mx-auto"
+            >
+              Explore the vast expanses of our solar system, from the scorching surface of the Sun to the icy reaches of the Oort Cloud.
+            </motion.p>
+          </div>
+
+          {/* Scroll Indicator */}
+          <motion.div 
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: 999999 }}
+            className="absolute bottom-10 flex flex-col items-center gap-2 text-white/30"
           >
-            <Orbit className="h-4 w-4 animate-spin-slow" />
-            Solar System Explorer
+            <span className="text-[10px] uppercase tracking-[0.3em] font-bold">Scroll to Explore</span>
+            <div className="h-12 w-[1px] bg-gradient-to-b from-white/30 to-transparent" />
           </motion.div>
-          <motion.h1 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-8"
-          >
-            Our Cosmic <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500">NEIGHBORHOOD</span>
-          </motion.h1>
-          <motion.p
-             initial={{ opacity: 0, y: 30 }}
-             animate={{ opacity: 1, y: 0 }}
-             transition={{ delay: 0.1 }}
-             className="text-xl md:text-2xl text-white/60 font-light max-w-2xl mx-auto"
-          >
-            Explore the vast expanses of our solar system, from the scorching surface of the Sun to the icy reaches of the Oort Cloud.
-          </motion.p>
-        </div>
+        </section>
 
-        {/* Scroll Indicator */}
-        <motion.div 
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="absolute bottom-10 flex flex-col items-center gap-2 text-white/30"
-        >
-          <span className="text-[10px] uppercase tracking-[0.3em] font-bold">Scroll to Explore</span>
-          <div className="h-12 w-[1px] bg-gradient-to-b from-white/30 to-transparent" />
-        </motion.div>
-      </section>
+        {/* Interactive Planet Browser */}
+        <section className="relative z-10 py-32 bg-white/[0.02] border-y border-white/5">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="flex flex-col lg:flex-row gap-16 items-start">
+              {/* Left: Navigation List */}
+              <div className="w-full lg:w-1/3 space-y-2">
+                <h2 className="text-sm font-black uppercase tracking-[0.5em] text-white/40 mb-8">Celestial Catalog</h2>
+                {PLANETS.map((planet) => (
+                  <button
+                    key={planet.id}
+                    onClick={() => setActivePlanet(planet)}
+                    className={cn(
+                      "w-full group flex items-center justify-between p-6 rounded-2xl transition-all border",
+                      activePlanet.id === planet.id 
+                        ? "bg-white/10 border-white/20 shadow-2xl scale-[1.02]" 
+                        : "bg-transparent border-transparent hover:bg-white/5"
+                    )}
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className={cn("h-3 w-3 rounded-full bg-gradient-to-br shadow-[0_0_15px_rgba(255,255,255,0.5)]", planet.color)} />
+                      <span className={cn(
+                        "text-xl font-bold uppercase tracking-tighter transition-colors",
+                        activePlanet.id === planet.id ? "text-white" : "text-white/40 group-hover:text-white/70"
+                      )}>
+                        {planet.name}
+                      </span>
+                    </div>
+                    <ChevronRight className={cn(
+                      "h-5 w-5 transition-transform",
+                      activePlanet.id === planet.id ? "translate-x-0 opacity-100" : "-translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100"
+                    )} />
+                  </button>
+                ))}
+              </div>
 
-      {/* Interactive Planet Browser */}
-      <section className="relative z-10 py-32 bg-white/[0.02] border-y border-white/5">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col lg:flex-row gap-16 items-start">
-            {/* Left: Navigation List */}
-            <div className="w-full lg:w-1/3 space-y-2">
-              <h2 className="text-sm font-black uppercase tracking-[0.5em] text-white/40 mb-8">Celestial Catalog</h2>
-              {PLANETS.map((planet) => (
-                <button
-                  key={planet.id}
-                  onClick={() => setActivePlanet(planet)}
-                  className={cn(
-                    "w-full group flex items-center justify-between p-6 rounded-2xl transition-all border",
-                    activePlanet.id === planet.id 
-                      ? "bg-white/10 border-white/20 shadow-2xl scale-[1.02]" 
-                      : "bg-transparent border-transparent hover:bg-white/5"
-                  )}
-                >
-                  <div className="flex items-center gap-4">
-                    <div className={cn("h-3 w-3 rounded-full bg-gradient-to-br shadow-[0_0_15px_rgba(255,255,255,0.5)]", planet.color)} />
-                    <span className={cn(
-                      "text-xl font-bold uppercase tracking-tighter transition-colors",
-                      activePlanet.id === planet.id ? "text-white" : "text-white/40 group-hover:text-white/70"
-                    )}>
-                      {planet.name}
-                    </span>
-                  </div>
-                  <ChevronRight className={cn(
-                    "h-5 w-5 transition-transform",
-                    activePlanet.id === planet.id ? "translate-x-0 opacity-100" : "-translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100"
-                  )} />
-                </button>
-              ))}
-            </div>
-
-            {/* Right: Detailed View */}
-            <div className="flex-1 min-h-[600px] w-full">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activePlanet.id}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.4 }}
-                  className="bg-white/5 rounded-[3rem] border border-white/10 p-8 md:p-12 relative overflow-hidden h-full"
-                >
-                  <div className="relative z-10 grid md:grid-cols-2 gap-12">
-                    <div className="space-y-8">
-                      <div>
-                        <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-blue-400 mb-4">
-                          <Zap className="h-3 w-3" />
-                          {activePlanet.type}
+              {/* Right: Detailed View */}
+              <div className="flex-1 min-h-[600px] w-full">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activePlanet.id}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.4 }}
+                    className="bg-white/5 rounded-[3rem] border border-white/10 p-8 md:p-12 relative overflow-hidden h-full"
+                  >
+                    <div className="relative z-10 grid md:grid-cols-2 gap-12">
+                      <div className="space-y-8">
+                        <div>
+                          <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-blue-400 mb-4">
+                            <Zap className="h-3 w-3" />
+                            {activePlanet.type}
+                          </div>
+                          <h3 className="text-6xl md:text-7xl font-black uppercase tracking-tighter mb-6">{activePlanet.name}</h3>
+                          <p className="text-xl text-white/70 leading-relaxed italic">
+                            "{activePlanet.description}"
+                          </p>
                         </div>
-                        <h3 className="text-6xl md:text-7xl font-black uppercase tracking-tighter mb-6">{activePlanet.name}</h3>
-                        <p className="text-xl text-white/70 leading-relaxed italic">
-                          "{activePlanet.description}"
-                        </p>
+
+                        <div className="p-6 rounded-2xl bg-black/40 border border-white/5 space-y-4">
+                          <p className="text-white/60 leading-relaxed">
+                            {activePlanet.details}
+                          </p>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                          <div className="p-4 rounded-xl bg-white/5 border border-white/5">
+                            <Thermometer className="h-4 w-4 text-red-400 mb-2" />
+                            <div className="text-[10px] uppercase font-bold text-white/40">Temperature</div>
+                            <div className="text-sm font-mono font-bold">{activePlanet.stats.temp}</div>
+                          </div>
+                          <div className="p-4 rounded-xl bg-white/5 border border-white/5">
+                            <Orbit className="h-4 w-4 text-blue-400 mb-2" />
+                            <div className="text-[10px] uppercase font-bold text-white/40">Distance</div>
+                            <div className="text-sm font-mono font-bold">{activePlanet.stats.distance}</div>
+                          </div>
+                          <div className="p-4 rounded-xl bg-white/5 border border-white/5">
+                            <Globe className="h-4 w-4 text-green-400 mb-2" />
+                            <div className="text-[10px] uppercase font-bold text-white/40">Diameter</div>
+                            <div className="text-sm font-mono font-bold">{activePlanet.stats.diameter}</div>
+                          </div>
+                        </div>
                       </div>
 
-                      <div className="p-6 rounded-2xl bg-black/40 border border-white/5 space-y-4">
-                        <p className="text-white/60 leading-relaxed">
-                          {activePlanet.details}
-                        </p>
-                      </div>
-
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <div className="p-4 rounded-xl bg-white/5 border border-white/5">
-                          <Thermometer className="h-4 w-4 text-red-400 mb-2" />
-                          <div className="text-[10px] uppercase font-bold text-white/40">Temperature</div>
-                          <div className="text-sm font-mono font-bold">{activePlanet.stats.temp}</div>
-                        </div>
-                        <div className="p-4 rounded-xl bg-white/5 border border-white/5">
-                          <Orbit className="h-4 w-4 text-blue-400 mb-2" />
-                          <div className="text-[10px] uppercase font-bold text-white/40">Distance</div>
-                          <div className="text-sm font-mono font-bold">{activePlanet.stats.distance}</div>
-                        </div>
-                        <div className="p-4 rounded-xl bg-white/5 border border-white/5">
-                          <Globe className="h-4 w-4 text-green-400 mb-2" />
-                          <div className="text-[10px] uppercase font-bold text-white/40">Diameter</div>
-                          <div className="text-sm font-mono font-bold">{activePlanet.stats.diameter}</div>
-                        </div>
+                      <div className="relative aspect-square rounded-[2rem] overflow-hidden group">
+                        <img 
+                          src={activePlanet.image} 
+                          alt={activePlanet.name}
+                          className="h-full w-full object-cover transition-transform duration-[2000ms] group-hover:scale-110"
+                        />
+                        <div className={cn("absolute inset-0 bg-gradient-to-t opacity-40 mix-blend-overlay", activePlanet.color)} />
+                        <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors" />
                       </div>
                     </div>
 
-                    <div className="relative aspect-square rounded-[2rem] overflow-hidden group">
-                      <img 
-                        src={activePlanet.image} 
-                        alt={activePlanet.name}
-                        className="h-full w-full object-cover transition-transform duration-[2000ms] group-hover:scale-110"
-                      />
-                      <div className={cn("absolute inset-0 bg-gradient-to-t opacity-40 mix-blend-overlay", activePlanet.color)} />
-                      <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors" />
-                    </div>
-                  </div>
-
-                  {/* Background Decoration */}
-                  <div className={cn("absolute -right-20 -bottom-20 w-96 h-96 blur-[150px] opacity-20 transition-all duration-1000 bg-gradient-to-br", activePlanet.color)} />
-                </motion.div>
-              </AnimatePresence>
+                    {/* Background Decoration */}
+                    <div className={cn("absolute -right-20 -bottom-20 w-96 h-96 blur-[150px] opacity-20 transition-all duration-1000 bg-gradient-to-br", activePlanet.color)} />
+                  </motion.div>
+                </AnimatePresence>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Beyond the Planets */}
-      <section className="py-32 px-6 max-w-7xl mx-auto">
-        <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-6 italic">Beyond the Spheres</h2>
-          <p className="text-xl text-white/50 max-w-2xl mx-auto">Our solar system is more than just planets. It is a complex ecosystem of debris, ice, and mysterious structures.</p>
-        </div>
+        {/* Beyond the Planets */}
+        <section className="py-32 px-6 max-w-7xl mx-auto">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-6 italic">Beyond the Spheres</h2>
+            <p className="text-xl text-white/50 max-w-2xl mx-auto">Our solar system is more than just planets. It is a complex ecosystem of debris, ice, and mysterious structures.</p>
+          </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {OTHER_BODIES.map((body, i) => (
-            <motion.div
-              key={body.name}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="p-10 rounded-3xl bg-white/5 border border-white/10 hover:border-white/20 transition-all group"
-            >
-              <div className="h-12 w-12 rounded-xl bg-white/10 flex items-center justify-center mb-6 text-yellow-500 group-hover:scale-110 transition-transform">
-                {body.icon}
-              </div>
-              <h4 className="text-2xl font-bold uppercase mb-4">{body.name}</h4>
-              <p className="text-white/60 leading-relaxed mb-6">{body.desc}</p>
-              <Link href="#" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-blue-400 hover:gap-4 transition-all">
-                Learn More <ArrowRight className="h-3 w-3" />
-              </Link>
-            </motion.div>
-          ))}
-        </div>
-      </section>
+          <div className="grid md:grid-cols-3 gap-8">
+            {OTHER_BODIES.map((body, i) => (
+              <motion.div
+                key={body.name}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="p-10 rounded-3xl bg-white/5 border border-white/10 hover:border-white/20 transition-all group"
+              >
+                <div className="h-12 w-12 rounded-xl bg-white/10 flex items-center justify-center mb-6 text-yellow-500 group-hover:scale-110 transition-transform">
+                  {body.icon}
+                </div>
+                <h4 className="text-2xl font-bold uppercase mb-4">{body.name}</h4>
+                <p className="text-white/60 leading-relaxed mb-6">{body.desc}</p>
+                <Link href="#" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-blue-400 hover:gap-4 transition-all">
+                  Learn More <ArrowRight className="h-3 w-3" />
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </section>
 
-      {/* Visual Infographic (simplified) */}
-      <section className="relative h-[600px] w-full overflow-hidden bg-black flex items-center justify-center">
-        <div className="absolute inset-0 pointer-events-none opacity-20">
-           {[...Array(5)].map((_, i) => (
-             <motion.div
-               key={i}
-               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border border-white/20 rounded-full"
-               style={{ 
-                 width: (i + 1) * 200, 
-                 height: (i + 1) * 200 
-               }}
-               animate={{ rotate: 360 }}
-               transition={{ duration: (i + 1) * 20, repeat: Infinity, ease: "linear" }}
-             />
-           ))}
-        </div>
+        {/* Visual Infographic (simplified) */}
+        <section className="relative h-[600px] w-full overflow-hidden bg-black flex items-center justify-center">
+          <div className="absolute inset-0 pointer-events-none opacity-20">
+             {[...Array(5)].map((_, i) => (
+               <motion.div
+                 key={i}
+                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border border-white/20 rounded-full"
+                 style={{ 
+                   width: (i + 1) * 200, 
+                   height: (i + 1) * 200 
+                 }}
+                 animate={{ rotate: 360 }}
+                 transition={{ duration: (i + 1) * 20, repeat: 999999, ease: "linear" }}
+               />
+             ))}
+          </div>
         
         <div className="relative z-10 text-center space-y-8">
           <Telescope className="h-16 w-16 text-white/20 mx-auto animate-pulse" />

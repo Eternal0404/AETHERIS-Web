@@ -49,11 +49,11 @@ export default function LatencyPage() {
                   scale: [1, 1.1, 1],
                   opacity: [0.5, 1, 0.5]
                 }}
-                transition={{ 
-                  duration: 2, 
-                  repeat: Infinity, 
-                  delay: i * 0.3 
-                }}
+                  transition={{ 
+                    duration: 2, 
+                    repeat: 999999, 
+                    delay: i * 0.3 
+                  }}
                 className="h-16 w-16 rounded-full border border-primary/30 flex items-center justify-center bg-primary/5"
               >
                 <div className="h-2 w-2 rounded-full bg-primary" />

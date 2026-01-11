@@ -30,6 +30,14 @@ const data = Array.from({ length: 24 }, (_, i) => ({
 }))
 
 export default function OutgoingTrafficPage() {
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) return <div className="min-h-screen bg-black" />
+
   return (
     <div className="space-y-8 pb-12">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">

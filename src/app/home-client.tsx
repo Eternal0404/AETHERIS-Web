@@ -36,7 +36,7 @@ export function HomeClient({ user }: { user: User | null }) {
               scale: [1, 1.1, 1],
               rotate: [0, 5, 0]
             }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            transition={{ duration: 20, repeat: 999999, ease: "linear" }}
             className="absolute inset-0 opacity-[0.03] cyber:opacity-[0.05]"
             style={{ backgroundImage: "url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop')" }} 
           />
@@ -74,12 +74,12 @@ export function HomeClient({ user }: { user: User | null }) {
             <div className="flex items-center gap-12 text-muted-foreground/40">
               <motion.div
                 animate={{ y: [0, -5, 0], opacity: [0.3, 0.6, 0.3] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}>
+                transition={{ duration: 3, repeat: 999999, ease: "easeInOut" }}>
                 <Shield className="h-4 w-4" />
               </motion.div>
               <motion.div
                 animate={{ y: [0, -5, 0], opacity: [0.3, 0.6, 0.3] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}>
+                transition={{ duration: 3, repeat: 999999, ease: "easeInOut", delay: 1.5 }}>
                 <Zap className="h-4 w-4" />
               </motion.div>
             </div>
@@ -161,14 +161,14 @@ export function HomeClient({ user }: { user: User | null }) {
               </div>
               <div className="relative hidden w-48 shrink-0 md:block">
                 <div className="aspect-square rounded-full border border-primary/20 p-2">
-                  <div className="aspect-square rounded-full border border-primary/40 p-2">
-                    <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                      className="flex h-full w-full items-center justify-center rounded-full border border-primary/60">
-                      <Activity className="h-8 w-8 text-primary" />
-                    </motion.div>
-                  </div>
+                    <div className="aspect-square rounded-full border border-primary/40 p-2">
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 10, repeat: 999999, ease: "linear" }}
+                        className="flex h-full w-full items-center justify-center rounded-full border border-primary/60">
+                        <Activity className="h-8 w-8 text-primary" />
+                      </motion.div>
+                    </div>
                 </div>
               </div>
             </div>
