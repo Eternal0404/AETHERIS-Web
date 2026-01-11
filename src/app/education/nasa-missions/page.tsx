@@ -2,6 +2,7 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Rocket, Target, Star, Award, Zap, Users, Telescope, Globe, Info, ArrowRight, Sparkles } from "lucide-react";
@@ -104,7 +105,7 @@ export default function NasaMissionsPage() {
             className="text-6xl md:text-9xl font-black tracking-tighter uppercase leading-none mb-8"
           >
             NASA <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-500">MISSIONS</span>
-          </h1 >
+          </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
