@@ -208,7 +208,7 @@ export default function DashboardPage() {
   const [showNotifications, setShowNotifications] = React.useState(false)
   const [searchQuery, setSearchQuery] = React.useState("")
   const [user, setUser] = React.useState<User | null>(null)
-  const supabase = createClient()
+  const supabase = React.useMemo(() => createClient(), [])
 
   React.useEffect(() => {
     setMounted(true)
@@ -223,7 +223,7 @@ export default function DashboardPage() {
     })
 
     return () => subscription.unsubscribe()
-  }, [supabase.auth])
+  }, [supabase])
   
   const sensors = useSensors(
     useSensor(PointerSensor),
