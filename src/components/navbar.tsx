@@ -8,10 +8,20 @@ import { ThemeToggle } from "./theme-toggle"
 import { Button } from "@/components/ui/button"
 import { createClient } from "@/lib/supabase"
 import { User } from "@supabase/supabase-js"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { LogOut, User as UserIcon, Settings, LayoutDashboard } from "lucide-react"
 
 export function Navbar() {
   const [user, setUser] = React.useState<User | null>(null)
-  const supabase = createClient()
+  const supabase = React.useMemo(() => createClient(), [])
 
   React.useEffect(() => {
     const getUser = async () => {
@@ -25,11 +35,16 @@ export function Navbar() {
     })
 
     return () => subscription.unsubscribe()
-  }, [supabase.auth])
+  }, [supabase])
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
+    setUser(null)
   }
+
+  const userInitials = user?.email?.substring(0, 2).toUpperCase() ?? "U"
+  const displayName = user?.user_metadata?.full_name || user?.email?.split("@")[0] || "User"
+  const avatarUrl = user?.user_metadata?.avatar_url
 
   return (
     <motion.nav 
@@ -66,9 +81,46 @@ export function Navbar() {
         <SearchOverlay />
         <ThemeToggle />
         {user ? (
-          <Button variant="outline" className="rounded-full" onClick={handleSignOut}>
-            Sign Out
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="relative h-10 w-10 rounded-full border border-foreground/10 p-0 hover:bg-foreground/5">
+                <Avatar className="h-9 w-9">
+                  <AvatarImage src={avatarUrl} alt={displayName} />
+                  <AvatarFallback className="bg-primary/10 text-xs font-bold text-primary">
+                    {userInitials}
+                  </AvatarFallback>
+                </Avatar>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56" align="end" forceMount>
+              <DropdownMenuLabel className="font-normal">
+                <div className="flex flex-col space-y-1">
+                  <p className="text-sm font-medium leading-none">{displayName}</p>
+                  <p className="text-xs leading-none text-muted-foreground">
+                    {user?.email}
+                  </p>
+                </div>
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <Link href="/dashboard">
+                <DropdownMenuItem className="cursor-pointer">
+                  <LayoutDashboard className="mr-2 h-4 w-4" />
+                  <span>Dashboard</span>
+                </DropdownMenuItem>
+              </Link>
+              <Link href="/dashboard/settings">
+                <DropdownMenuItem className="cursor-pointer">
+                  <Settings className="mr-2 h-4 w-4" />
+                  <span>Settings</span>
+                </DropdownMenuItem>
+              </Link>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="cursor-pointer text-destructive focus:text-destructive" onClick={handleSignOut}>
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>Log out</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         ) : (
           <Link href="/auth">
             <Button variant="outline" className="rounded-full">
