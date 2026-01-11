@@ -206,6 +206,22 @@ export default function DashboardPage() {
   const [widgets, setWidgets] = React.useState(initialWidgets)
   const [showNotifications, setShowNotifications] = React.useState(false)
   const [searchQuery, setSearchQuery] = React.useState("")
+  const [user, setUser] = React.useState<User | null>(null)
+  const supabase = createClient()
+
+  React.useEffect(() => {
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      setUser(user)
+    }
+    getUser()
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null)
+    })
+
+    return () => subscription.unsubscribe()
+  }, [supabase.auth])
   
   const sensors = useSensors(
     useSensor(PointerSensor),
