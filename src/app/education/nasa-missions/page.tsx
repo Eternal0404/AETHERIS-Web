@@ -4,8 +4,24 @@
 import * as React from "react";
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { Rocket, Target, Star, Award, Zap, Users, Telescope, Globe, Info, ArrowRight, Sparkles } from "lucide-react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { 
+  Rocket, 
+  Target, 
+  Star, 
+  Award, 
+  Zap, 
+  Users, 
+  Telescope, 
+  Globe, 
+  Info, 
+  ArrowRight, 
+  Sparkles,
+  Search,
+  Cpu,
+  Shield,
+  History
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -15,8 +31,14 @@ const MISSIONS = [
     title: "Artemis Program",
     subtitle: "Moon to Mars",
     description: "NASA's most ambitious human spaceflight program since Apollo. Artemis aims to land the first woman and first person of color on the Moon, establishing a sustainable presence to prepare for the first human mission to Mars.",
+    deepDive: "The program utilizes the Space Launch System (SLS), the most powerful rocket ever built, and the Orion spacecraft. It involves international partners and commercial companies to build the Lunar Gateway and human landing systems.",
     icon: <Rocket className="h-6 w-6" />,
     stats: "Next Launch: 2025 (Artemis II)",
+    technical: [
+      { label: "Rocket", value: "SLS Block 1" },
+      { label: "Crew Capacity", value: "4 Astronauts" },
+      { label: "Destination", value: "Lunar South Pole" }
+    ],
     image: "https://images.unsplash.com/photo-1541185933-ef5d8ed016c2?auto=format&fit=crop&q=80&w=2070",
     color: "bg-blue-600"
   },
@@ -25,8 +47,14 @@ const MISSIONS = [
     title: "James Webb",
     subtitle: "Unfolding the Universe",
     description: "The premier observatory of the next decade. Webb is solving mysteries in our solar system, looking beyond to distant worlds around other stars, and probing the mysterious structures and origins of our universe.",
+    deepDive: "Webb's primary mirror is 6.5 meters across, composed of 18 hexagonal segments coated in gold. It operates at temperatures near absolute zero to detect the faint infrared glow from the earliest galaxies.",
     icon: <Telescope className="h-6 w-6" />,
     stats: "Distance: 1.5M km (L2 Point)",
+    technical: [
+      { label: "Mirror Size", value: "6.5 Meters" },
+      { label: "Wavelengths", value: "Infrared" },
+      { label: "Orbit", value: "Sun-Earth L2" }
+    ],
     image: "https://images.unsplash.com/photo-1614728263952-84ea256f9679?auto=format&fit=crop&q=80&w=2000",
     color: "bg-amber-600"
   },
@@ -35,8 +63,14 @@ const MISSIONS = [
     title: "Perseverance Rover",
     subtitle: "Seeking Life on Mars",
     description: "Currently exploring Jezero Crater, searching for signs of ancient microbial life, and collecting samples of rock and regolith for a future return to Earth.",
+    deepDive: "Equipped with 19 cameras and 7 scientific instruments, Perseverance is the most sophisticated rover ever sent to Mars. It also carried the Ingenuity helicopter, the first aircraft to fly on another planet.",
     icon: <Target className="h-6 w-6" />,
     stats: "Landed: Feb 18, 2021",
+    technical: [
+      { label: "Weight", value: "1,025 kg" },
+      { label: "Power", value: "MMRTG (Nuclear)" },
+      { label: "Instruments", value: "7 Primary" }
+    ],
     image: "https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?auto=format&fit=crop&q=80&w=2000",
     color: "bg-red-600"
   }
@@ -50,22 +84,11 @@ const ACHIEVEMENTS = [
   { year: "2021", title: "Ingenuity", desc: "First powered, controlled flight on another planet. A 'Wright Brothers moment' on Mars.", icon: <Zap /> }
 ];
 
-const FUTURE_PLANS = [
-  {
-    title: "Gateway Station",
-    desc: "A lunar-orbiting outpost that will provide vital support for long-term human return to the lunar surface.",
-    status: "In Development"
-  },
-  {
-    title: "Mars Sample Return",
-    desc: "A complex multi-mission campaign to bring Perseverance's samples back to Earth for analysis.",
-    status: "Planned 2030s"
-  },
-  {
-    title: "Europa Clipper",
-    desc: "A mission to study Jupiter's moon Europa to determine if it has conditions suitable for life.",
-    status: "Launch 2024"
-  }
+const QUICK_FACTS = [
+  { title: "Budget", value: "$25.4B", desc: "NASA's annual budget for FY 2024.", icon: <Zap /> },
+  { title: "Personnel", value: "18,000+", desc: "Dedicated scientists, engineers, and staff.", icon: <Users /> },
+  { title: "Centres", value: "10", desc: "Major field centers across the United States.", icon: <Globe /> },
+  { title: "Patents", value: "1,000+", desc: "NASA tech used in everyday life on Earth.", icon: <Cpu /> }
 ];
 
 export default function NasaMissionsPage() {
@@ -96,7 +119,7 @@ export default function NasaMissionsPage() {
             className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-500/50 bg-blue-500/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-blue-400 backdrop-blur-sm"
           >
             <Sparkles className="h-3 w-3" />
-            Exploring the Final Frontier
+            NASA Missions Archive
           </motion.div>
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
@@ -104,7 +127,7 @@ export default function NasaMissionsPage() {
             transition={{ delay: 0.4 }}
             className="text-6xl md:text-9xl font-black tracking-tighter uppercase leading-none mb-8"
           >
-            NASA <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-500">MISSIONS</span>
+            THE NASA <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-500">EXPERIENCE</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -112,42 +135,27 @@ export default function NasaMissionsPage() {
             transition={{ delay: 0.6 }}
             className="text-lg md:text-2xl text-white/60 max-w-2xl mx-auto font-light mb-12"
           >
-            Detailed analysis of humanity's greatest endeavors in space exploration, 
-            from historic milestones to the future of multi-planetary life.
+            A comprehensive exploration of NASA's most ambitious endeavors, technical achievements, and future roadmap.
           </motion.p>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-          >
-            <Button size="lg" className="rounded-full px-8 h-16 text-lg font-bold uppercase group">
-              Start Journey <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-            </Button>
-          </motion.div>
         </div>
+      </section>
 
-        {/* Floating Icons Background */}
-        <div className="absolute inset-0 pointer-events-none">
-          {[...Array(20)].map((_, i) => (
+      {/* Quick Facts Section */}
+      <section className="py-20 px-6 max-w-7xl mx-auto border-b border-white/5">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          {QUICK_FACTS.map((fact, i) => (
             <motion.div
-              key={i}
-              className="absolute text-white/5"
-              initial={{ 
-                x: Math.random() * 100 + "%", 
-                y: Math.random() * 100 + "%",
-                rotate: Math.random() * 360
-              }}
-              animate={{ 
-                y: [null, Math.random() * -100 - 50 + "%"],
-                rotate: [null, Math.random() * 360]
-              }}
-              transition={{ 
-                duration: Math.random() * 20 + 20, 
-                repeat: Infinity, 
-                ease: "linear" 
-              }}
+              key={fact.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className="text-center md:text-left"
             >
-              <Star size={Math.random() * 20 + 10} />
+              <div className="text-blue-500 mb-4 flex justify-center md:justify-start">{fact.icon}</div>
+              <div className="text-3xl md:text-4xl font-black tracking-tighter mb-1">{fact.value}</div>
+              <div className="text-xs font-bold uppercase text-white/40 tracking-widest mb-2">{fact.title}</div>
+              <p className="text-sm text-white/60">{fact.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -156,11 +164,11 @@ export default function NasaMissionsPage() {
       {/* Main Missions Section */}
       <section className="relative z-10 py-32 px-6 max-w-7xl mx-auto">
         <div className="mb-20">
-          <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter italic border-l-8 border-blue-600 pl-8 mb-6">Current Flagships</h2>
-          <p className="text-xl text-muted-foreground max-w-2xl">The pillars of modern space exploration pushing the boundaries of what is possible.</p>
+          <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter italic border-l-8 border-blue-600 pl-8 mb-6">Flagship Operations</h2>
+          <p className="text-xl text-muted-foreground max-w-2xl">Deep dive into the current cornerstones of NASA's exploration strategy.</p>
         </div>
 
-        <div className="space-y-32">
+        <div className="space-y-48">
           {MISSIONS.map((mission, i) => (
             <motion.div
               key={mission.id}
@@ -168,8 +176,8 @@ export default function NasaMissionsPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               className={cn(
-                "flex flex-col md:flex-row gap-12 items-center",
-                i % 2 === 1 ? "md:flex-row-reverse" : ""
+                "flex flex-col gap-16",
+                i % 2 === 1 ? "md:flex-row-reverse" : "md:flex-row"
               )}
             >
               <div className="flex-1 space-y-8">
@@ -179,111 +187,132 @@ export default function NasaMissionsPage() {
                 <div>
                   <h3 className="text-5xl font-black uppercase tracking-tighter mb-2">{mission.title}</h3>
                   <h4 className="text-xl font-bold text-blue-400 uppercase tracking-widest mb-6">{mission.subtitle}</h4>
-                  <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+                  <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-8">
                     {mission.description}
                   </p>
-                </div>
-                <div className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 w-fit">
-                  <Info className="h-5 w-5 text-blue-400" />
-                  <span className="font-mono text-sm uppercase tracking-wider">{mission.stats}</span>
+                  
+                  <div className="p-8 rounded-[2rem] bg-white/5 border border-white/10 mb-8">
+                    <h5 className="text-sm font-black uppercase tracking-[0.2em] text-white/40 mb-4 flex items-center gap-2">
+                       <Search className="h-4 w-4" /> Deep Dive
+                    </h5>
+                    <p className="text-white/80 leading-relaxed font-light">
+                      {mission.deepDive}
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-4">
+                    {mission.technical.map((tech) => (
+                      <div key={tech.label} className="p-4 rounded-xl bg-black border border-white/5">
+                        <div className="text-[10px] uppercase font-bold text-white/40 mb-1">{tech.label}</div>
+                        <div className="text-xs font-mono font-bold text-blue-400">{tech.value}</div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-              <div className="flex-1 w-full aspect-video rounded-[2rem] overflow-hidden relative group">
-                <img 
-                  src={mission.image} 
-                  alt={mission.title}
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+
+              <div className="flex-1 relative">
+                <div className="sticky top-32">
+                  <div className="aspect-video rounded-[3rem] overflow-hidden relative group shadow-2xl">
+                    <img 
+                      src={mission.image} 
+                      alt={mission.title}
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                    <div className="absolute bottom-8 left-8 p-4 rounded-2xl bg-black/80 backdrop-blur-md border border-white/10">
+                      <div className="flex items-center gap-3">
+                        <Info className="h-4 w-4 text-blue-400" />
+                        <span className="text-xs font-mono font-bold uppercase tracking-widest">{mission.stats}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </motion.div>
           ))}
         </div>
       </section>
 
-      {/* Achievements Section */}
-      <section id="achievements" className="relative bg-white/[0.02] py-32 border-y border-white/5">
+      {/* Timeline Achievements */}
+      <section className="relative bg-white/[0.02] py-32 border-y border-white/5">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20">
-            <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-6">Legacy of Excellence</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">Milestones that defined human history and expanded our horizons beyond Earth.</p>
+            <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-6">Historical Timeline</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">Key milestones that defined NASA's legacy and expanded our horizons.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-            {ACHIEVEMENTS.map((ach, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="group relative p-8 rounded-3xl bg-black border border-white/10 hover:border-blue-500/50 transition-all overflow-hidden"
-              >
-                <div className="absolute -right-4 -top-4 h-24 w-24 bg-blue-600/10 blur-[40px] opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="text-blue-500 mb-6">{ach.icon}</div>
-                <div className="text-sm font-mono text-white/40 mb-2">{ach.year}</div>
-                <h4 className="text-xl font-bold uppercase mb-4">{ach.title}</h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">{ach.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Future Plans Section */}
-      <section className="py-32 px-6 max-w-7xl mx-auto">
-        <div className="grid md:grid-cols-2 gap-20 items-center">
-          <div>
-            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-8 leading-none">The Next <br /> <span className="text-blue-500 italic">Frontier</span></h2>
-            <p className="text-xl text-muted-foreground mb-12">NASA's roadmap for the coming decade focuses on sustainable lunar living and the first human steps on Mars.</p>
-            <div className="space-y-8">
-              {FUTURE_PLANS.map((plan, i) => (
-                <div key={i} className="flex gap-6 items-start">
-                  <div className="h-1 w-12 bg-blue-600 mt-3" />
-                  <div>
-                    <h4 className="text-xl font-bold uppercase mb-2">{plan.title}</h4>
-                    <p className="text-muted-foreground mb-2">{plan.desc}</p>
-                    <span className="text-[10px] font-mono text-blue-400 border border-blue-400/30 px-2 py-0.5 rounded uppercase">{plan.status}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="relative aspect-square">
-            <div className="absolute inset-0 bg-blue-600/20 blur-[100px] animate-pulse" />
-            <div className="relative h-full w-full rounded-[3rem] border border-white/10 bg-white/5 flex items-center justify-center overflow-hidden">
+          <div className="space-y-8 relative">
+             <div className="absolute left-[21px] md:left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-blue-500/0 via-blue-500/50 to-blue-500/0 hidden md:block" />
+             
+             {ACHIEVEMENTS.map((ach, i) => (
                <motion.div
-                 animate={{ rotate: 360 }}
-                 transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
-                 className="absolute inset-8 rounded-full border border-dashed border-blue-500/30"
-               />
-               <Rocket className="h-32 w-32 text-blue-500/50 animate-bounce" />
-            </div>
+                 key={ach.year}
+                 initial={{ opacity: 0, x: i % 2 === 0 ? -50 : 50 }}
+                 whileInView={{ opacity: 1, x: 0 }}
+                 viewport={{ once: true }}
+                 className={cn(
+                   "flex flex-col md:flex-row gap-8 items-start md:items-center",
+                   i % 2 === 1 ? "md:flex-row-reverse" : ""
+                 )}
+               >
+                 <div className="flex-1 w-full text-left md:text-right">
+                    {i % 2 === 0 && (
+                      <div className="p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-blue-500/30 transition-all">
+                        <div className="text-blue-400 mb-2">{ach.icon}</div>
+                        <h4 className="text-2xl font-black uppercase tracking-tighter mb-2">{ach.title}</h4>
+                        <p className="text-white/60 text-sm leading-relaxed">{ach.desc}</p>
+                      </div>
+                    )}
+                 </div>
+
+                 <div className="relative z-10 flex h-11 w-11 items-center justify-center rounded-full bg-blue-600 border-4 border-black text-xs font-black">
+                    {ach.year.slice(2)}
+                 </div>
+
+                 <div className="flex-1 w-full text-left">
+                    {i % 2 === 1 && (
+                      <div className="p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-blue-500/30 transition-all">
+                        <div className="text-blue-400 mb-2">{ach.icon}</div>
+                        <h4 className="text-2xl font-black uppercase tracking-tighter mb-2">{ach.title}</h4>
+                        <p className="text-white/60 text-sm leading-relaxed">{ach.desc}</p>
+                      </div>
+                    )}
+                 </div>
+               </motion.div>
+             ))}
           </div>
         </div>
       </section>
 
-      {/* Call to Action */}
-      <section className="relative overflow-hidden bg-gradient-to-r from-blue-900 to-indigo-950 py-32 text-center px-6">
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10" />
-        <div className="relative z-10">
-          <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-8">Ready to join the mission?</h2>
-          <p className="text-xl text-white/70 max-w-2xl mx-auto mb-12">Stay updated with the latest NASA telemetry and mission reports through our integrated dashboard.</p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button size="lg" className="rounded-full px-12 h-16 text-lg font-bold uppercase bg-white text-blue-900 hover:bg-blue-50">
-              Explore Dashboard
-            </Button>
+      {/* CTA Section */}
+      <section className="py-32 px-6 text-center bg-black">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          className="max-w-4xl mx-auto p-16 rounded-[4rem] bg-gradient-to-br from-blue-900/40 to-indigo-900/40 border border-white/10 relative overflow-hidden"
+        >
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-blue-400/10 via-transparent to-transparent" />
+          <History className="h-16 w-16 text-blue-500 mx-auto mb-8 animate-pulse" />
+          <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-8 leading-tight">Humanity's Next <br /> Great Leap</h2>
+          <p className="text-xl text-white/60 mb-12 max-w-xl mx-auto">The journey doesn't end here. Join us as we continue to push the boundaries of what is possible in the vast ocean of space.</p>
+          <div className="flex flex-col sm:flex-row justify-center gap-4 relative z-10">
+            <Link href="/education/solar-system">
+              <Button size="lg" className="rounded-full px-12 h-16 font-black uppercase tracking-tighter text-lg w-full sm:w-auto">
+                Explore Solar System
+              </Button>
+            </Link>
             <Link href="/education">
-              <Button size="lg" variant="outline" className="rounded-full px-12 h-16 text-lg font-bold uppercase border-white/20 text-white hover:bg-white/10">
+              <Button size="lg" variant="outline" className="rounded-full px-12 h-16 font-black uppercase tracking-tighter text-lg w-full sm:w-auto border-white/20">
                 Back to Academy
               </Button>
             </Link>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       <footer className="py-12 text-center text-muted-foreground text-xs font-mono uppercase tracking-[0.5em] border-t border-white/5 bg-black px-6">
-        NASA Data Visualization // Aetheris Project
+        NASA Data Visualization // Aetheris Project // 2026
       </footer>
     </main>
   );

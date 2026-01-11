@@ -11,6 +11,14 @@ import { cn } from "@/lib/utils";
 
 const TOPICS = [
   {
+    title: "Solar System",
+    description: "A comprehensive guide to our cosmic neighborhood, from the Sun to the Kuiper Belt.",
+    icon: <Globe className="h-8 w-8" />,
+    href: "/education/solar-system",
+    color: "from-yellow-500 to-orange-600",
+    image: "https://images.unsplash.com/photo-1614730321146-b6fa6a46bc46?auto=format&fit=crop&q=80&w=2072",
+  },
+  {
     title: "NASA Missions",
     description: "Explore the ambitious plans, current missions, and historic achievements of NASA.",
     icon: <Rocket className="h-8 w-8" />,
@@ -25,14 +33,6 @@ const TOPICS = [
     href: "/education/space-pollution",
     color: "from-red-600 to-orange-600",
     image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=2072",
-  },
-  {
-    title: "Space Achievements",
-    description: "A look at the most significant milestones in human space exploration.",
-    icon: <Award className="h-8 w-8" />,
-    href: "/education/nasa-missions#achievements",
-    color: "from-purple-600 to-pink-600",
-    image: "https://images.unsplash.com/photo-1446776877081-d282a0f896e2?auto=format&fit=crop&q=80&w=2072",
   },
 ];
 
