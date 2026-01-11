@@ -203,6 +203,7 @@ const notifications = [
 ]
 
 export default function DashboardPage() {
+  const [mounted, setMounted] = React.useState(false)
   const [widgets, setWidgets] = React.useState(initialWidgets)
   const [showNotifications, setShowNotifications] = React.useState(false)
   const [searchQuery, setSearchQuery] = React.useState("")
@@ -210,6 +211,7 @@ export default function DashboardPage() {
   const supabase = createClient()
 
   React.useEffect(() => {
+    setMounted(true)
     const getUser = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       setUser(user)
@@ -239,6 +241,14 @@ export default function DashboardPage() {
         return arrayMove(items, oldIndex, newIndex)
       })
     }
+  }
+
+  if (!mounted) {
+    return (
+      <div className="flex h-[80vh] items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+      </div>
+    )
   }
 
   return (
