@@ -59,6 +59,18 @@ export function TiltCard({ children, className }: { children: React.ReactNode, c
 }
 
 export function TelemetryWaveform({ color = "var(--primary)" }: { color?: string }) {
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return (
+      <div className="flex h-12 items-end gap-1 overflow-hidden opacity-0" />
+    )
+  }
+
   return (
     <div className="flex h-12 items-end gap-1 overflow-hidden">
       {[...Array(20)].map((_, i) => (
