@@ -33,16 +33,15 @@ export default function AuthPage() {
     setLoading(true)
 
     try {
-      if (isLogin) {
-        const { error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        })
-        if (error) throw error
-        toast.success("Successfully signed in")
-        // Use window.location.href for a hard redirect to ensure cookies are synced
-        window.location.href = "/dashboard"
-      } else {
+        if (isLogin) {
+          const { error } = await supabase.auth.signInWithPassword({
+            email,
+            password,
+          })
+          if (error) throw error
+          toast.success("Successfully signed in")
+          window.location.href = "/dashboard"
+        } else {
         const { error } = await supabase.auth.signUp({
           email,
           password,

@@ -88,12 +88,12 @@ export function Navbar({ initialUser }: NavbarProps) {
         <div className="flex items-center gap-4">
           <SearchOverlay />
           <ThemeToggle />
-          {user ? (
-            <div className="flex items-center gap-3">
-              <span className="hidden text-sm font-medium text-muted-foreground md:block">
-                {user.email}
-              </span>
-              <DropdownMenu>
+            {user ? (
+              <div className="flex items-center gap-3">
+                <span className="text-sm font-medium text-muted-foreground">
+                  {user.email}
+                </span>
+                <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="relative h-10 w-10 rounded-full border border-foreground/10 p-0 hover:bg-foreground/5">
                     <Avatar className="h-9 w-9">
