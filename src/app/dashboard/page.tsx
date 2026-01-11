@@ -308,6 +308,30 @@ export default function DashboardPage() {
               )}
             </AnimatePresence>
           </div>
+
+          {user && (
+            <motion.div 
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="flex items-center gap-3 pl-3 border-l border-foreground/10"
+            >
+              <div className="text-right hidden sm:block">
+                <div className="text-sm font-bold leading-none">
+                  {user.user_metadata?.full_name || user.email?.split('@')[0]}
+                </div>
+                <div className="text-[10px] text-muted-foreground mt-1 uppercase tracking-tighter">
+                  Authorized User
+                </div>
+              </div>
+              <Avatar className="h-10 w-10 border border-primary/20 ring-2 ring-primary/10">
+                <AvatarImage src={user.user_metadata?.avatar_url} />
+                <AvatarFallback className="bg-primary/10 text-primary font-bold">
+                  {(user.user_metadata?.full_name || user.email || "U").charAt(0).toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+            </motion.div>
+          )}
+
           <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-foreground/5 text-xs font-mono text-muted-foreground">
             <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
             LIVE SYSTEM FEED
