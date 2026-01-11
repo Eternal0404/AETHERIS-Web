@@ -1,6 +1,9 @@
 "use client"
 
 import * as React from "react"
+import { createClient } from "@/lib/supabase"
+import { User } from "@supabase/supabase-js"
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Canvas, useFrame } from "@react-three/fiber"
 import { Sphere, MeshDistortMaterial, Float } from "@react-three/drei"
 import * as THREE from "three"
