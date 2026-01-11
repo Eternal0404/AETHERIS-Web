@@ -73,9 +73,9 @@ export function Navbar({ initialUser }: NavbarProps) {
             <Link href="/dashboard" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
               Dashboard
             </Link>
-            <Link href="/education/space-pollution" className="text-sm font-medium text-primary transition-colors hover:text-primary/80">
-              Education
-            </Link>
+              <Link href="/education" className="text-sm font-medium text-primary transition-colors hover:text-primary/80">
+                Education
+              </Link>
             <Link href="/resources" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
               Resources
             </Link>
