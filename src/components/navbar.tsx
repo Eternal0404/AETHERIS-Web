@@ -19,23 +19,31 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { LogOut, User as UserIcon, Settings, LayoutDashboard } from "lucide-react"
 
-export function Navbar() {
-  const [user, setUser] = React.useState<User | null>(null)
+interface NavbarProps {
+  initialUser?: User | null
+}
+
+export function Navbar({ initialUser }: NavbarProps) {
+  const [user, setUser] = React.useState<User | null>(initialUser ?? null)
   const supabase = React.useMemo(() => createClient(), [])
 
   React.useEffect(() => {
-    const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      setUser(user)
+    if (initialUser) {
+      setUser(initialUser)
+    } else {
+      const getUser = async () => {
+        const { data: { user } } = await supabase.auth.getUser()
+        setUser(user)
+      }
+      getUser()
     }
-    getUser()
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null)
     })
 
     return () => subscription.unsubscribe()
-  }, [supabase])
+  }, [supabase, initialUser])
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
