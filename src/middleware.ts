@@ -32,6 +32,7 @@ export async function middleware(request: NextRequest) {
   )
 
   const { data: { user } } = await supabase.auth.getUser()
+  console.log('User status:', user ? 'Logged in' : 'Not logged in')
 
   const isPublicRoute = 
     request.nextUrl.pathname === '/' || 
@@ -39,6 +40,7 @@ export async function middleware(request: NextRequest) {
 
   // Protected routes logic
   if (!user && !isPublicRoute) {
+    console.log('Redirecting to /auth')
     return NextResponse.redirect(new URL('/auth', request.url))
   }
 
