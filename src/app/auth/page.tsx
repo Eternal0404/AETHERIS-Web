@@ -15,8 +15,18 @@ export default function AuthPage() {
   const [loading, setLoading] = React.useState(false)
   const [email, setEmail] = React.useState("")
   const [password, setPassword] = React.useState("")
-  const supabase = createClient()
+  const supabase = React.useMemo(() => createClient(), [])
   const router = useRouter()
+
+  React.useEffect(() => {
+    const checkUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) {
+        router.push("/dashboard")
+      }
+    }
+    checkUser()
+  }, [supabase, router])
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault()
