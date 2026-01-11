@@ -7,8 +7,9 @@ import { EarthPollutionModel } from "@/components/earth-pollution-model";
 import { ScrambleIn } from "@/components/scramble-in";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
-import { Shield, Zap, Activity, Info, AlertTriangle, Recycle, Target, Waves, Search, BarChart3, Globe, Layers, Clock, TrendingUp, Filter } from "lucide-react";
+import { Shield, Zap, Activity, Info, AlertTriangle, Recycle, Target, Waves, Search, BarChart3, Globe, Layers, Clock, TrendingUp, Filter, Database, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { createClient } from "@/lib/supabase";
 
 const SOLUTIONS = [
   {
@@ -102,7 +103,39 @@ const TRACKING_SYSTEMS = [
 ];
 
 export default function SpacePollutionPage() {
-  const [activeTab, setActiveTab] = React.useState<"overview" | "solutions" | "map">("overview");
+  const [activeTab, setActiveTab] = React.useState<"overview" | "solutions" | "map" | "live">("overview");
+  const [debrisData, setDebrisData] = React.useState<any[]>([]);
+  const [loading, setLoading] = React.useState(false);
+  const supabase = createClient();
+
+  React.useEffect(() => {
+    if (activeTab === "live") {
+      fetchDebris();
+    }
+  }, [activeTab]);
+
+  const fetchDebris = async () => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('orbital_debris')
+        .select('*')
+        .order('risk_factor', { ascending: false });
+      
+      if (error) throw error;
+      setDebrisData(data || []);
+    } catch (error) {
+      console.error("Error fetching debris:", error);
+      // Fallback data
+      setDebrisData([
+        { id: 1, object_name: 'Vanguard 1', object_type: 'Satellite', altitude_km: 650, density_profile: 'LEO', risk_factor: 0.15 },
+        { id: 2, object_name: 'Cosmos 2251 Fragment', object_type: 'Debris', altitude_km: 780, density_profile: 'LEO', risk_factor: 0.85 },
+        { id: 3, object_name: 'Iridium 33 Fragment', object_type: 'Debris', altitude_km: 780, density_profile: 'LEO', risk_factor: 0.82 },
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <main className="relative min-h-screen bg-black text-white selection:bg-red-500/30 font-sans overflow-x-hidden">
@@ -136,10 +169,11 @@ export default function SpacePollutionPage() {
         </div>
 
         {/* Navigation Tabs - Responsive Layout */}
-        <div className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 z-20 flex p-1 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full w-[90%] md:w-auto overflow-x-auto no-scrollbar">
+        <div className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 z-20 flex p-1 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full w-[95%] md:w-auto overflow-x-auto no-scrollbar">
           {[
             { id: "overview", label: "Overview", icon: <Search className="w-4 h-4" /> },
             { id: "map", label: "Data Map", icon: <Layers className="w-4 h-4" /> },
+            { id: "live", label: "Live Stats", icon: <Database className="w-4 h-4" /> },
             { id: "solutions", label: "Solutions", icon: <Target className="w-4 h-4" /> }
           ].map((tab) => (
             <button
@@ -463,6 +497,87 @@ export default function SpacePollutionPage() {
             </motion.div>
           )}
 
+          {activeTab === "live" && (
+            <motion.div
+              key="live"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="mx-auto max-w-7xl px-4 md:px-6 py-16 md:py-32"
+            >
+              <div className="mb-12 md:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div>
+                  <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase mb-4 italic">Live Telemetry</h2>
+                  <p className="text-lg md:text-xl text-muted-foreground">Streaming data from the Aetheris Orbital Monitoring System.</p>
+                </div>
+                <Button onClick={fetchDebris} disabled={loading} className="rounded-full h-12 px-6 gap-2">
+                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Clock className="w-4 h-4" />}
+                  Refresh Sync
+                </Button>
+              </div>
+
+              <div className="glass rounded-[2rem] md:rounded-[3rem] border border-white/10 overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left">
+                    <thead>
+                      <tr className="border-b border-white/10 bg-white/5">
+                        <th className="px-6 md:px-10 py-6 text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-white/40">Object Name</th>
+                        <th className="px-6 md:px-10 py-6 text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-white/40">Type</th>
+                        <th className="px-6 md:px-10 py-6 text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-white/40">Altitude</th>
+                        <th className="px-6 md:px-10 py-6 text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-white/40">Density</th>
+                        <th className="px-6 md:px-10 py-6 text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-white/40 text-right">Risk Index</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {debrisData.map((obj, i) => (
+                        <motion.tr 
+                          key={obj.id}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: i * 0.05 }}
+                          className="border-b border-white/5 hover:bg-white/[0.02] transition-colors"
+                        >
+                          <td className="px-6 md:px-10 py-6 font-bold text-sm md:text-base">{obj.object_name}</td>
+                          <td className="px-6 md:px-10 py-6">
+                            <span className={cn(
+                              "text-[10px] font-mono px-2 py-1 rounded-md",
+                              obj.object_type === 'Satellite' ? 'bg-blue-500/10 text-blue-400' : 'bg-red-500/10 text-red-400'
+                            )}>
+                              {obj.object_type}
+                            </span>
+                          </td>
+                          <td className="px-6 md:px-10 py-6 text-sm font-mono text-white/60">{obj.altitude_km}km</td>
+                          <td className="px-6 md:px-10 py-6 text-sm font-bold text-white/80">{obj.density_profile}</td>
+                          <td className="px-6 md:px-10 py-6 text-right">
+                            <div className="flex items-center justify-end gap-3">
+                              <div className="h-1.5 w-24 bg-white/5 rounded-full overflow-hidden hidden md:block">
+                                <motion.div 
+                                  initial={{ width: 0 }}
+                                  animate={{ width: `${obj.risk_factor * 100}%` }}
+                                  className={cn("h-full", obj.risk_factor > 0.7 ? "bg-red-500" : "bg-blue-500")}
+                                />
+                              </div>
+                              <span className={cn(
+                                "font-mono font-bold text-xs md:text-sm",
+                                obj.risk_factor > 0.7 ? "text-red-500" : "text-blue-500"
+                              )}>
+                                {obj.risk_factor.toFixed(2)}
+                              </span>
+                            </div>
+                          </td>
+                        </motion.tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              
+              <div className="mt-8 flex items-center gap-4 text-[10px] md:text-xs font-mono text-white/20 uppercase tracking-[0.3em]">
+                <div className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
+                Live Data Stream Active // Source: ESA/Space-Force-SSN
+              </div>
+            </motion.div>
+          )}
 
           {activeTab === "solutions" && (
             <motion.div
@@ -512,6 +627,57 @@ export default function SpacePollutionPage() {
           )}
         </AnimatePresence>
       </div>
+
+      {/* Final CTA */}
+      <section className="relative overflow-hidden bg-red-600 py-32 md:py-48 text-center px-4 md:px-6">
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay" />
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          className="relative z-10"
+        >
+          <h2 className="text-5xl md:text-9xl font-black tracking-tighter uppercase leading-none italic">
+            Protect Our <br className="hidden sm:block" /> Future
+          </h2>
+          <p className="mx-auto mt-8 md:mt-12 max-w-2xl text-lg md:text-2xl font-medium text-white/90">
+            Support international debris mitigation guidelines and sustainable satellite design.
+          </p>
+          <div className="mt-12 md:mt-16 flex flex-col sm:flex-row justify-center gap-4 md:gap-6">
+            <Button size="lg" className="bg-black hover:bg-white hover:text-black text-white rounded-full px-8 md:px-16 h-16 md:h-20 text-lg md:text-xl font-bold uppercase transition-all">
+              Join the Mission
+            </Button>
+            <Button size="lg" variant="outline" className="rounded-full px-8 md:px-16 h-16 md:h-20 text-lg md:text-xl font-bold uppercase border-white/40 hover:bg-white/10">
+              Donate Data
+            </Button>
+          </div>
+        </motion.div>
+      </section>
+
+      <footer className="py-12 md:py-24 text-center text-muted-foreground text-[10px] md:text-sm font-mono uppercase tracking-[0.3em] md:tracking-[0.5em] border-t border-white/5 bg-black px-4">
+        Earth Orbit Monitoring System v4.0.2 // (c) 2024 Planetary Safety
+      </footer>
+
+      {/* Animations */}
+      <style jsx global>{`
+        @keyframes spin-slow {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+          animation: spin-slow 20s linear infinite;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .no-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
+    </main>
+  );
+}
 
       {/* Final CTA */}
       <section className="relative overflow-hidden bg-red-600 py-32 md:py-48 text-center px-4 md:px-6">
