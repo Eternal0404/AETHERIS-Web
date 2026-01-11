@@ -18,6 +18,16 @@ export function ScrambleIn({
   stagger = 0.05,
   className,
 }: ScrambleInProps) {
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return <div className={className}>{children}</div>;
+  }
+
   const containerVariants = {
     hidden: {},
     visible: {
